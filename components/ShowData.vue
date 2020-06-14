@@ -1,15 +1,18 @@
 <template>
-  <div></div>
+  <v-container>
+    <v-card v-for="session in sessions" :key="session.id">
+      <v-card-text>{{ session }}</v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  props: {
-    sessions: {
-      type: Array,
-      required: true
-    }
-  }
+  computed: mapState({
+    sessions: (state) => state.sessions.sessions
+  })
 }
 </script>
 
