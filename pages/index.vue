@@ -1,24 +1,25 @@
 <template>
   <v-container>
     <h1>Home</h1>
-    <ShowData :sessions="sessions" />
+    <ShowData />
   </v-container>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import ShowData from '@/components/ShowData.vue'
 
 export default {
   components: {
     ShowData
   },
-  fetch() {
-    this.getSessions()
+  async fetch() {
+    try {
+      await this.getSessions()
+    } catch (e) {
+      console.log(e)
+    }
   },
-  computed: mapState({
-    sessions: (state) => state.sessions.sessions
-  }),
   methods: {
     ...mapActions({
       getSessions: 'sessions/getSessions'

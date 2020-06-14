@@ -6,7 +6,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_SESSION(state, session) {
-    state.sessions = session
+    state.sessions.push(session)
   }
 }
 
@@ -25,7 +25,7 @@ export const actions = {
   getSessions({ commit }) {
     const db = firebase.firestore()
     const sessions = db.collection('collection1')
-    sessions.get().then((response) => {
+    return sessions.get().then((response) => {
       response.forEach((doc) => {
         const session = {
           id: doc.id,
