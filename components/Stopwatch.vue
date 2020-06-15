@@ -2,7 +2,7 @@
   <v-card>
     <v-row>
       <v-col class="display-2 text-center">
-        {{ formatTime() }}
+        {{ formatTime(totalTime) }}
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -52,13 +52,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import { formatMixin } from '@/mixins/formatMixin'
 import firebase from '@/plugins/firebase'
 
 export default {
+  mixins: [formatMixin],
   data: () => ({
-    timerState: 'reset',
+    timerState: 'initial',
     buttonText: 'Start',
     selectedGenre: '',
+    initialTime: null,
     startTime: 0,
     elapsedTime: 0,
     totalTime: 0,
@@ -73,6 +76,9 @@ export default {
     }),
     startOrStop() {
       if (this.timerState !== 'started') {
+        if (this.timerState === 'initial') {
+          this.initialTime = firebase.firestore.Timestamp.now()
+        }
         this.startTime = Date.now()
         this.countUp()
         this.timerState = 'started'
@@ -84,37 +90,31 @@ export default {
         this.buttonText = 'Start'
       }
     },
-    reset() {
-      clearTimeout(this.timeoutId)
-      this.clearData()
-    },
     countUp() {
       this.totalTime = Date.now() - this.startTime + this.elapsedTime
       this.timeoutId = setTimeout(() => {
         this.countUp()
       }, 10)
     },
-    formatTime() {
-      const d = new Date(this.totalTime)
-      const h = String(d.getUTCHours()).padStart(2, '0')
-      const m = String(d.getMinutes()).padStart(2, '0')
-      const s = String(d.getSeconds()).padStart(2, '0')
-      const ms = String(d.getMilliseconds()).padStart(3, '0')
-      return `${h}:${m}:${s}.${ms}`
-    },
     save() {
-      const d = firebase.firestore.Timestamp.fromDate(new Date())
+      const d = firebase.firestore.Timestamp.now()
       const session = {
-        totalTime: this.totalTime,
-        genre: this.selectedGenre,
-        date: d
+        name: this.selectedGenre,
+        start: this.initialTime,
+        end: d,
+        totalTime: this.totalTime
       }
       this.addSession(session)
       this.clearData()
     },
+    reset() {
+      clearTimeout(this.timeoutId)
+      this.clearData()
+    },
     clearData() {
-      this.timerState = 'cleared'
+      this.timerState = 'initial'
       this.selectedGenre = ''
+      this.initialTime = null
       this.startTime = 0
       this.elapsedTime = 0
       this.totalTime = 0

@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <h1>Home</h1>
-    <ShowData />
+    <ShowData :sessions="sessions" />
   </v-container>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import ShowData from '@/components/ShowData.vue'
 
 export default {
@@ -20,6 +20,9 @@ export default {
       console.log(e)
     }
   },
+  computed: mapState({
+    sessions: (state) => state.sessions.sessions
+  }),
   methods: {
     ...mapActions({
       getSessions: 'sessions/getSessions'

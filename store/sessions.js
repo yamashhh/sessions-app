@@ -13,24 +13,31 @@ export const mutations = {
 export const actions = {
   addSession({}, session) {
     const db = firebase.firestore()
-    const sessions = db.collection('collection1')
+    const sessions = db.collection('collection2')
     sessions
       .add(session)
       .then((response) => {
-        console.log('The ID returned from Firestore is:', response.id)
-        console.log(response)
+        alert('The ID returned from Firestore is:', response.id)
+        console.log(response.id)
       })
-      .catch((error) => console.log(error))
+      .catch((error) => alert(error))
   },
   getSessions({ commit }) {
     const db = firebase.firestore()
-    const sessions = db.collection('collection1')
+    const sessions = db.collection('collection2')
     return sessions.get().then((response) => {
       response.forEach((doc) => {
         const session = {
           id: doc.id,
-          genre: doc.data().genre,
-          date: doc.data().date.toDate(),
+          name: doc.data().name,
+          start: doc
+            .data()
+            .start.toDate()
+            .toISOString(),
+          end: doc
+            .data()
+            .end.toDate()
+            .toISOString(),
           totalTime: doc.data().totalTime
         }
         commit('SET_SESSION', session)
