@@ -38,7 +38,8 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
-    ['@nuxtjs/dotenv', { filename: '.env.local' }]
+    ['@nuxtjs/dotenv', { filename: '.env.local' }],
+    '@nuxtjs/moment'
   ],
   /*
    ** Nuxt.js modules
@@ -59,7 +60,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      // dark: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,

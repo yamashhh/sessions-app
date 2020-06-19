@@ -17,12 +17,12 @@ export default {
     Navbar
   },
   head: {
-    titleTemplate: '%s - focusOnTrack',
+    titleTemplate: '%s - Sessions',
     meta: [
       {
         hid: 'description',
         name: 'description',
-        content: 'My first Nuxt.js app under development.'
+        content: 'An attempt to make my own Nuxt.js app.'
       }
     ]
   }

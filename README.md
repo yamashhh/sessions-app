@@ -1,4 +1,4 @@
-# focusOnTrack
+# Sessions
 
 > An attempt to make my own Nuxt.js app
 

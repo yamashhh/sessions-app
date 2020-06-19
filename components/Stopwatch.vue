@@ -2,7 +2,7 @@
   <v-card>
     <v-row>
       <v-col class="display-2 text-center">
-        {{ formatTime(totalTime) }}
+        {{ $moment.utc(totalTime).format('HH:mm:ss') }}
       </v-col>
     </v-row>
     <v-divider></v-divider>
@@ -21,7 +21,7 @@
       <v-row>
         <v-col cols="4">
           <v-btn
-            :color="timerState !== 'started' ? 'success' : 'warning'"
+            :color="timerState !== 'started' ? 'primary' : 'warning'"
             :disabled="selectedGenre === ''"
             block
             @click="startOrStop"
@@ -30,6 +30,7 @@
         </v-col>
         <v-col cols="4">
           <v-btn
+            color="success"
             :disabled="timerState !== 'stopped' || selectedGenre === ''"
             block
             @click="save"
@@ -51,12 +52,16 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { formatMixin } from '@/mixins/formatMixin'
+import { mapActions } from 'vuex'
 import firebase from '@/plugins/firebase'
 
 export default {
-  mixins: [formatMixin],
+  props: {
+    genres: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
     timerState: 'initial',
     buttonText: 'Start',
@@ -66,9 +71,6 @@ export default {
     elapsedTime: 0,
     totalTime: 0,
     timeoutId: null
-  }),
-  computed: mapState({
-    genres: (state) => state.genres.genres
   }),
   methods: {
     ...mapActions({
@@ -104,8 +106,10 @@ export default {
         end: d,
         totalTime: this.totalTime
       }
-      this.addSession(session)
-      this.clearData()
+      this.addSession(session).then(() => {
+        this.clearData()
+        this.$router.go()
+      })
     },
     reset() {
       clearTimeout(this.timeoutId)

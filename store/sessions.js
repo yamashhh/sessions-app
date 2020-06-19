@@ -4,9 +4,15 @@ export const state = () => ({
   sessions: []
 })
 
+export const getters = {
+  getSessions: (state) => {
+    return state.sessions
+  }
+}
+
 export const mutations = {
-  SET_SESSION(state, session) {
-    state.sessions.push(session)
+  SET_SESSIONS(state, sessions) {
+    state.sessions = sessions
   }
 }
 
@@ -16,32 +22,24 @@ export const actions = {
     const sessions = db.collection('collection2')
     sessions
       .add(session)
-      .then((response) => {
-        alert('The ID returned from Firestore is:', response.id)
-        console.log(response.id)
-      })
+      .then((response) => console.log(response))
       .catch((error) => alert(error))
   },
-  getSessions({ commit }) {
+  fetchSessions({ commit }) {
     const db = firebase.firestore()
     const sessions = db.collection('collection2')
     return sessions.get().then((response) => {
+      const sessions = []
       response.forEach((doc) => {
-        const session = {
+        sessions.push({
           id: doc.id,
           name: doc.data().name,
-          start: doc
-            .data()
-            .start.toDate()
-            .toISOString(),
-          end: doc
-            .data()
-            .end.toDate()
-            .toISOString(),
+          start: doc.data().start.toDate(),
+          end: doc.data().end.toDate(),
           totalTime: doc.data().totalTime
-        }
-        commit('SET_SESSION', session)
+        })
       })
+      commit('SET_SESSIONS', sessions)
     })
   }
 }
