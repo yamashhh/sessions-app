@@ -24,7 +24,6 @@ export const actions = {
       .add(session)
       .then((response) => {
         console.log(response)
-        dispatch('fetchSessions')
       })
       .catch((error) => console.log(error))
   },

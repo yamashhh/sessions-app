@@ -15,8 +15,15 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <Stopwatch :genres="genres"></Stopwatch>
+      <Stopwatch
+        :genres="genres"
+        @fetchNewSessions="fetchNewSessions"
+      ></Stopwatch>
     </v-dialog>
+    <v-snackbar v-model="snackbar">
+      {{ message }}
+      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-row>
 </template>
 
@@ -35,10 +42,24 @@ export default {
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      snackbar: false,
+      message: ''
+    }
+  },
+  methods: {
+    fetchNewSessions(message) {
+      this.snackbar = true
+      this.message = message
+      this.$emit('fetchNewSessions')
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-btn--fab.v-size--default {
+  height: 56px;
+  width: 56px;
+}
+</style>

@@ -6,49 +6,6 @@
     <v-card-text class="display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
     </v-card-text>
-    <!-- <v-divider></v-divider> -->
-    <!-- <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-select
-            v-model="selectedGenre"
-            :items="genres"
-            label="Genre"
-            hint="Please select a genre before you start your session."
-            persistent-hint
-          ></v-select>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4">
-          <v-btn
-            :color="timerState !== 'started' ? 'primary' : 'warning'"
-            :disabled="selectedGenre === ''"
-            block
-            @click="startOrStop"
-            >{{ buttonText }}</v-btn
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-btn
-            color="success"
-            :disabled="timerState !== 'stopped' || selectedGenre === ''"
-            block
-            @click="save"
-            >Save</v-btn
-          >
-        </v-col>
-        <v-col cols="4">
-          <v-btn
-            color="error"
-            :disabled="timerState !== 'stopped'"
-            block
-            @click="reset"
-            >Reset</v-btn
-          >
-        </v-col>
-      </v-row>
-    </v-container> -->
     <v-card-actions>
       <v-select
         v-model="selectedGenre"
@@ -57,7 +14,6 @@
         hint="Please select a genre before you start your session."
         :persistent-hint="selectedGenre === ''"
         outlined
-        autofocus
       ></v-select>
     </v-card-actions>
     <v-card-actions>
@@ -141,8 +97,8 @@ export default {
       }
       this.addSession(session)
         .then(() => {
+          this.$emit('fetchNewSessions', 'Session was saved successfully.')
           this.clearData()
-          // this.$router.go()
         })
         .catch(() => console.log('Error'))
     },

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-calendar :events="sessions" type="day"></v-calendar>
+    <v-calendar :events="sessions" type="month"></v-calendar>
   </v-container>
 </template>
 
@@ -15,4 +15,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-btn--fab.v-size--default {
+  height: 28px;
+  width: 28px;
+}
+</style>
