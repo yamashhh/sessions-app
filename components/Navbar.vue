@@ -5,7 +5,7 @@
     </v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-btn to="/dashboard" nuxt text rounded>Dashboard</v-btn>
+    <v-btn to="/dashboard" nuxt text>Dashboard</v-btn>
     <!-- <v-btn to="/newSession" nuxt text rounded>New Session</v-btn> -->
   </v-app-bar>
 </template>
