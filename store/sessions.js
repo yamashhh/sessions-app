@@ -17,15 +17,19 @@ export const mutations = {
 }
 
 export const actions = {
-  addSession({}, session) {
+  addSession({ dispatch }, session) {
     const db = firebase.firestore()
     const sessions = db.collection('collection2')
-    sessions
+    return sessions
       .add(session)
-      .then((response) => console.log(response))
-      .catch((error) => alert(error))
+      .then((response) => {
+        console.log(response)
+        dispatch('fetchSessions')
+      })
+      .catch((error) => console.log(error))
   },
   fetchSessions({ commit }) {
+    console.log('fetchSessions')
     const db = firebase.firestore()
     const sessions = db.collection('collection2')
     return sessions.get().then((response) => {
@@ -40,6 +44,7 @@ export const actions = {
         })
       })
       commit('SET_SESSIONS', sessions)
+      console.log('i just committed')
     })
   }
 }

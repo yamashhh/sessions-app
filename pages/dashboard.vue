@@ -2,7 +2,7 @@
   <v-container>
     <h1>Dashboard</h1>
     <ShowCalendar :sessions="formattedSessions" />
-    <NewSession :genres="genres"></NewSession>
+    <NewSession :genres="genres" @test="fetchSessions"></NewSession>
   </v-container>
 </template>
 

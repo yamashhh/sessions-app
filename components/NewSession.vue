@@ -15,7 +15,7 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <Stopwatch :genres="genres"></Stopwatch>
+      <Stopwatch :genres="genres" @test="test"></Stopwatch>
     </v-dialog>
   </v-row>
 </template>
@@ -36,6 +36,11 @@ export default {
   data() {
     return {
       dialog: false
+    }
+  },
+  methods: {
+    test() {
+      this.$emit('test')
     }
   }
 }

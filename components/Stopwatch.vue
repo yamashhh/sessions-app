@@ -1,12 +1,13 @@
 <template>
   <v-card>
-    <v-row>
-      <v-col class="display-2 text-center">
-        {{ $moment.utc(totalTime).format('HH:mm:ss') }}
-      </v-col>
-    </v-row>
-    <v-divider></v-divider>
-    <v-container>
+    <v-card-title>
+      New Session
+    </v-card-title>
+    <v-card-text class="display-2 text-center">
+      {{ $moment.utc(totalTime).format('HH:mm:ss') }}
+    </v-card-text>
+    <!-- <v-divider></v-divider> -->
+    <!-- <v-container>
       <v-row>
         <v-col cols="12">
           <v-select
@@ -47,7 +48,39 @@
           >
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
+    <v-card-actions>
+      <v-select
+        v-model="selectedGenre"
+        :items="genres"
+        label="Genre"
+        hint="Please select a genre before you start your session."
+        :persistent-hint="selectedGenre === ''"
+        outlined
+        autofocus
+      ></v-select>
+    </v-card-actions>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+        :color="timerState !== 'started' ? 'primary' : 'warning'"
+        :disabled="selectedGenre === ''"
+        @click="startOrStop"
+        >{{ buttonText }}</v-btn
+      >
+      <v-spacer></v-spacer>
+      <v-btn
+        color="success"
+        :disabled="timerState !== 'stopped' || selectedGenre === ''"
+        @click="save"
+        >Save</v-btn
+      >
+      <v-spacer></v-spacer>
+      <v-btn color="error" :disabled="timerState !== 'stopped'" @click="reset"
+        >Reset</v-btn
+      >
+      <v-spacer></v-spacer>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -107,6 +140,7 @@ export default {
         totalTime: this.totalTime
       }
       this.addSession(session).then(() => {
+        this.$emit('test')
         this.clearData()
         this.$router.go()
       })
