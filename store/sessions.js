@@ -31,19 +31,21 @@ export const actions = {
   fetchSessions({ commit }) {
     const db = firebase.firestore()
     const sessions = db.collection('collection2')
-    return sessions.get().then((response) => {
-      const sessions = []
-      response.forEach((doc) => {
-        sessions.push({
-          id: doc.id,
-          name: doc.data().name,
-          start: doc.data().start.toDate(),
-          end: doc.data().end.toDate(),
-          totalTime: doc.data().totalTime
+    return sessions
+      .get()
+      .then((response) => {
+        const sessions = []
+        response.forEach((doc) => {
+          sessions.push({
+            id: doc.id,
+            name: doc.data().name,
+            start: doc.data().start.toDate(),
+            end: doc.data().end.toDate(),
+            totalTime: doc.data().totalTime
+          })
         })
+        commit('SET_SESSIONS', sessions)
       })
-      commit('SET_SESSIONS', sessions)
-      console.log('i just committed')
-    })
+      .catch(() => console.log('Error'))
   }
 }

@@ -139,10 +139,12 @@ export default {
         end: d,
         totalTime: this.totalTime
       }
-      this.addSession(session).then(() => {
-        this.clearData()
-        this.$router.go()
-      })
+      this.addSession(session)
+        .then(() => {
+          this.clearData()
+          // this.$router.go()
+        })
+        .catch(() => console.log('Error'))
     },
     reset() {
       clearTimeout(this.timeoutId)
