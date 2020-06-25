@@ -51,16 +51,18 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    timerState: 'initial',
-    buttonText: 'Start',
-    selectedGenre: '',
-    initialTime: null,
-    startTime: 0,
-    elapsedTime: 0,
-    totalTime: 0,
-    timeoutId: null
-  }),
+  data() {
+    return {
+      timerState: 'initial',
+      buttonText: 'Start',
+      selectedGenre: '',
+      initialTime: null,
+      startTime: 0,
+      elapsedTime: 0,
+      totalTime: 0,
+      timeoutId: null
+    }
+  },
   methods: {
     ...mapActions({
       addSession: 'sessions/addSession'
