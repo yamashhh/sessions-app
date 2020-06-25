@@ -90,8 +90,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .v-btn--fab.v-size--small {
+  height: 30px;
+  width: 30px;
+}
+.v-btn--fab.v-size--default {
   height: 30px;
   width: 30px;
 }

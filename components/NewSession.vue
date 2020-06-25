@@ -57,4 +57,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-btn--fab.v-size--default {
+  height: 56px;
+  width: 56px;
+}
+</style>
