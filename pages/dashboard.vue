@@ -1,22 +1,19 @@
 <template>
   <v-container>
     <h1>Dashboard</h1>
-    <!-- <ShowCalendar :sessions="formattedSessions" /> -->
-    <ShowCalendarCopy :sessions="formattedSessions" />
+    <ShowCalendar :sessions="formattedSessions" />
     <NewSession :genres="genres" @fetchNewSessions="fetchSessions"></NewSession>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import ShowCalendar from '@/components/ShowCalendar.vue'
-import ShowCalendarCopy from '@/components/ShowCalendarCopy.vue'
+import ShowCalendar from '@/components/ShowCalendar.vue'
 import NewSession from '@/components/NewSession.vue'
 
 export default {
   components: {
-    // ShowCalendar,
-    ShowCalendarCopy,
+    ShowCalendar,
     NewSession
   },
   async fetch() {

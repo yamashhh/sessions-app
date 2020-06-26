@@ -1,4 +1,4 @@
-import firebase from '@/plugins/firebase'
+import { db } from '@/plugins/firebase'
 
 export const state = () => ({
   sessions: []
@@ -18,7 +18,6 @@ export const mutations = {
 
 export const actions = {
   addSession({ dispatch }, session) {
-    const db = firebase.firestore()
     const sessions = db.collection('collection2')
     return sessions
       .add(session)
@@ -28,7 +27,6 @@ export const actions = {
       .catch((error) => console.log(error))
   },
   fetchSessions({ commit }) {
-    const db = firebase.firestore()
     const sessions = db.collection('collection2')
     return sessions
       .get()
