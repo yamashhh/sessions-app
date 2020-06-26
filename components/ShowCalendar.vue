@@ -1,23 +1,25 @@
 <template>
   <v-row class="fill-height">
     <v-col>
+      <h2 v-show="mobile" class="ml-4 font-weight-regular">
+        {{ title }}
+      </h2>
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn
             outlined
-            class="mr-2"
             color="grey darken-2"
             :small="mobile"
             @click="setToday"
           >
-            <v-icon :left="!mobile">mdi-calendar-today</v-icon
-            ><span v-show="!mobile">Today</span>
+            <v-icon left :small="mobile">mdi-calendar-today</v-icon
+            ><span>Today</span>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-toolbar-title>
+          <v-toolbar-title v-show="!mobile">
             {{ title }}
           </v-toolbar-title>
           <v-btn fab text small color="grey darken-2" @click="next">
@@ -33,9 +35,9 @@
                 :small="mobile"
                 v-on="on"
               >
-                <v-icon :left="!mobile">{{ typeToIcon[type] }}</v-icon>
-                <span v-show="!mobile">{{ typeToLabel[type] }}</span>
-                <v-icon :right="!mobile">mdi-menu-down</v-icon>
+                <v-icon left :small="mobile">{{ typeToIcon[type] }}</v-icon>
+                <span>{{ typeToLabel[type] }}</span>
+                <v-icon right :small="mobile">mdi-menu-down</v-icon>
               </v-btn>
             </template>
             <v-list>
