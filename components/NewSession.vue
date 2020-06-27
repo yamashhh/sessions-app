@@ -9,7 +9,7 @@
           dark
           fab
           bottom
-          left
+          right
           v-on="on"
         >
           <v-icon>mdi-plus</v-icon>
