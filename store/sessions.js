@@ -21,9 +21,7 @@ export const actions = {
     const sessions = db.collection('collection2')
     return sessions
       .add(session)
-      .then((response) => {
-        console.log(response)
-      })
+      .then(() => {})
       .catch((error) => console.log(error))
   },
   fetchSessions({ commit }) {
@@ -33,10 +31,13 @@ export const actions = {
       .then((response) => {
         const sessions = []
         response.forEach((doc) => {
+          const endMillis = doc.data().end.toMillis()
+          const totalTime = doc.data().totalTime
+          const start = new Date(endMillis - totalTime)
           sessions.push({
             id: doc.id,
             name: doc.data().name,
-            start: doc.data().start.toDate(),
+            start,
             end: doc.data().end.toDate(),
             totalTime: doc.data().totalTime
           })
