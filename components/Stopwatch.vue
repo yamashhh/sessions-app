@@ -90,7 +90,7 @@ export default {
       }, 10)
     },
     save() {
-      const d = firebase.firestore.Timestamp.now()
+      const d = firebase.firestore.FieldValue.serverTimestamp()
       const session = {
         name: this.selectedGenre,
         start: this.initialTime,
