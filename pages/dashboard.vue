@@ -1,8 +1,12 @@
 <template>
   <v-container>
     <h1>Dashboard</h1>
-    <ShowCalendar :sessions="formattedSessions" />
-    <NewSession :genres="genres" @fetchNewSessions="fetchSessions"></NewSession>
+    <ShowCalendar
+      :sessions="formattedSessions"
+      :overlay="overlay"
+      @fetchSessions="fetchSessions"
+    />
+    <NewSession :genres="genres" @fetchSessions="fetchSessions"></NewSession>
   </v-container>
 </template>
 
@@ -18,7 +22,7 @@ export default {
   },
   async fetch() {
     try {
-      await this.fetchSessions()
+      await this.fetchSessions(new Date())
     } catch (e) {
       console.log(e)
     }
@@ -26,7 +30,8 @@ export default {
   computed: {
     ...mapGetters({
       sessions: 'sessions/getSessions',
-      genres: 'genres/getGenres'
+      genres: 'genres/getGenres',
+      overlay: 'overlay/getOverlay'
     }),
     formattedSessions() {
       return this.formatSessions(this.sessions)

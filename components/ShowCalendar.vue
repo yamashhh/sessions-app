@@ -59,6 +59,9 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
+        <v-overlay :value="overlay">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -79,6 +82,10 @@ export default {
   props: {
     sessions: {
       type: Array,
+      required: true
+    },
+    overlay: {
+      type: Boolean,
       required: true
     }
   },
@@ -135,13 +142,34 @@ export default {
       this.$refs.calendar.next()
     },
     updateRange({ start, end }) {
+      // Conditions for pagination
+      if (this.start != null && this.end != null) {
+        // console.log(`
+        // this.start.month: ${this.start.month}
+        // this.end.month: ${this.end.month}
+        // start.month: ${start.month}
+        // end.month: ${end.month}
+        // `)
+        const thisMonth = new Date().getMonth() + 1
+        if (
+          // If the calendar view is MONTH,
+          // WEEK (when it only shows next month),
+          // or DAY
+          (this.start.month === this.end.month &&
+            start.month === end.month &&
+            this.start.month !== start.month) ||
+          // If the calendar view is WEEK
+          // (when it shows both previous/next month)
+          (this.start.month !== this.end.month && start.month === end.month) ||
+          // If the user pressed "TODAY" button
+          (this.start.month !== start.month && start.month === thisMonth) ||
+          (this.end.month !== end.month && end.month === thisMonth)
+        ) {
+          this.$emit('fetchSessions', new Date(start.year, start.month - 1))
+        }
+      }
       this.start = start
       this.end = end
-    },
-    nth(d) {
-      return d > 3 && d < 21
-        ? 'th'
-        : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
     }
   }
 }
