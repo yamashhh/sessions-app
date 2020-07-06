@@ -1,11 +1,11 @@
-import { db } from '@/plugins/firebase'
+import { db, firestore } from '@/plugins/firebase'
 
 export const state = () => ({
   sessions: []
 })
 
 export const getters = {
-  getSessions: (state) => {
+  getSessions(state) {
     return state.sessions
   }
 }
@@ -18,17 +18,52 @@ export const mutations = {
 
 export const actions = {
   addSession({ dispatch }, session) {
+    dispatch('overlay/switchOverlay', null, { root: true })
     const sessions = db.collection('collection2')
     return sessions
       .add(session)
       .then((response) => {
         console.log(response)
+        dispatch('overlay/switchOverlay', null, { root: true })
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.log(error)
+        dispatch('overlay/switchOverlay', null, { root: true })
+      })
   },
-  fetchSessions({ commit }) {
+  fetchSessions({ commit, dispatch }, dateObj) {
+    dispatch('overlay/switchOverlay', null, { root: true })
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth()
+    let pastYear = null
+    let futureYear = null
+    let pastMonth = null
+    let futureMonth = null
+    if (month === 0) {
+      pastYear = year - 1
+      futureYear = year
+      pastMonth = 11
+      futureMonth = 2
+    } else if (month >= 10) {
+      pastYear = year
+      futureYear = year + 1
+      pastMonth = month - 1
+      month === 10 ? (futureMonth = 0) : (futureMonth = 1)
+    } else {
+      pastYear = year
+      futureYear = year
+      pastMonth = month - 1
+      futureMonth = month + 2
+    }
+    const pastDate = firestore.Timestamp.fromDate(new Date(pastYear, pastMonth))
+    const futureDate = firestore.Timestamp.fromDate(
+      new Date(futureYear, futureMonth)
+    )
     const sessions = db.collection('collection2')
-    return sessions
+    const query = sessions
+      .where('start', '>=', pastDate)
+      .where('start', '<', futureDate)
+    return query
       .get()
       .then((response) => {
         const sessions = []
@@ -42,7 +77,11 @@ export const actions = {
           })
         })
         commit('SET_SESSIONS', sessions)
+        dispatch('overlay/switchOverlay', null, { root: true })
       })
-      .catch(() => console.log('Error'))
+      .catch(() => {
+        console.log('Error')
+        dispatch('overlay/switchOverlay', null, { root: true })
+      })
   }
 }

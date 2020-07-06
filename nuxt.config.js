@@ -59,7 +59,7 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: true,
+    // treeShake: true,
     theme: {
       // dark: true,
       themes: {
