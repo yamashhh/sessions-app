@@ -15,10 +15,7 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <Stopwatch
-        :genres="genres"
-        @fetchNewSessions="fetchNewSessions"
-      ></Stopwatch>
+      <Stopwatch :genres="genres" @fetchSessions="fetchSessions"></Stopwatch>
     </v-dialog>
     <v-snackbar v-model="snackbar">
       {{ message }}
@@ -48,10 +45,10 @@ export default {
     }
   },
   methods: {
-    fetchNewSessions(message) {
+    fetchSessions(message, now) {
       this.snackbar = true
       this.message = message
-      this.$emit('fetchNewSessions')
+      this.$emit('fetchSessions', now)
     }
   }
 }

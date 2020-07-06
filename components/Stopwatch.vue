@@ -42,7 +42,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import firebase from '@/plugins/firebase'
+import { firestore } from '@/plugins/firebase'
 
 export default {
   props: {
@@ -70,7 +70,7 @@ export default {
     startOrStop() {
       if (this.timerState !== 'started') {
         if (this.timerState === 'initial') {
-          this.initialTime = firebase.firestore.Timestamp.now()
+          this.initialTime = firestore.Timestamp.now()
         }
         this.startTime = Date.now()
         this.countUp()
@@ -90,7 +90,7 @@ export default {
       }, 10)
     },
     save() {
-      const d = firebase.firestore.Timestamp.now()
+      const d = firestore.Timestamp.now()
       const session = {
         name: this.selectedGenre,
         start: this.initialTime,
@@ -99,7 +99,11 @@ export default {
       }
       this.addSession(session)
         .then(() => {
-          this.$emit('fetchNewSessions', 'Session was saved successfully.')
+          this.$emit(
+            'fetchSessions',
+            'Session was saved successfully.',
+            new Date()
+          )
           this.clearData()
         })
         .catch(() => console.log('Error'))
