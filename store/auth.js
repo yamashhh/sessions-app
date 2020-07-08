@@ -30,9 +30,9 @@ export const actions = {
     console.log('ACTION')
     commit('SET_USER', user)
   },
-  logout({ commit }) {
-    auth.signOut().then(() => {
-      commit('LOGOUT')
-    })
+  async logout({ commit }) {
+    await auth.signOut()
+    console.log('logged out')
+    commit('LOGOUT')
   }
 }

@@ -4,6 +4,7 @@
     <client-only>
       <firebase-ui />
     </client-only>
+    <v-btn @click="logout">logout</v-btn>
   </v-container>
 </template>
 
@@ -13,6 +14,11 @@ import FirebaseUi from '@/components/FirebaseUi.vue'
 export default {
   components: {
     FirebaseUi
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
+    }
   },
   head() {
     return {

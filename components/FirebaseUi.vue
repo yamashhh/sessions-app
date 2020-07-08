@@ -11,7 +11,6 @@ export default {
       const firebaseui = require('firebaseui')
       const ui =
         firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth)
-
       const config = {
         signInOptions: [authProviders.Google],
         signInSuccessUrl: '/dashboard',
@@ -26,7 +25,6 @@ export default {
           }
         }
       }
-
       ui.start('#firebaseui-auth-container', config)
     }
   }
