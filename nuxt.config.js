@@ -20,13 +20,19 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
+   ** Vue Router settings
+   */
+  router: {
+    middleware: 'auth'
+  },
+  /*
    ** Customize the progress-bar color
    */
   loading: { color: '#6328c9' },
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['firebaseui/dist/firebaseui.css'],
   /*
    ** Plugins to load before mounting the App
    */
