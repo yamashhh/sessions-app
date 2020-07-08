@@ -16,6 +16,7 @@ import ShowCalendar from '@/components/ShowCalendar.vue'
 import NewSession from '@/components/NewSession.vue'
 
 export default {
+  name: 'Dashboard',
   components: {
     ShowCalendar,
     NewSession

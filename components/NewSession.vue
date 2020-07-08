@@ -28,6 +28,7 @@
 import Stopwatch from '@/components/Stopwatch.vue'
 
 export default {
+  name: 'NewSession',
   components: {
     Stopwatch
   },

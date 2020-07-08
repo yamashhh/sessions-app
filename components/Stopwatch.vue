@@ -45,6 +45,7 @@ import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
 
 export default {
+  name: 'Stopwatch',
   props: {
     genres: {
       type: Array,

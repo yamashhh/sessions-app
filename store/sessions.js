@@ -22,8 +22,7 @@ export const actions = {
     const sessions = db.collection('collection2')
     return sessions
       .add(session)
-      .then((response) => {
-        console.log(response)
+      .then(() => {
         dispatch('overlay/switchOverlay', null, { root: true })
       })
       .catch((error) => {

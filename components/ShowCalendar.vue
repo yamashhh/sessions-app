@@ -79,6 +79,7 @@
 
 <script>
 export default {
+  name: 'ShowCalendar',
   props: {
     sessions: {
       type: Array,
