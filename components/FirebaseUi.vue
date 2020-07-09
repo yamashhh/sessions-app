@@ -7,26 +7,32 @@ import { authProviders, auth } from '@/plugins/firebase'
 export default {
   name: 'FirebaseUi',
   mounted() {
-    if (process.browser) {
-      const firebaseui = require('firebaseui')
-      const ui =
-        firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth)
-      const config = {
-        signInOptions: [authProviders.Google],
-        signInSuccessUrl: '/dashboard',
-        // tosUrl: '/tos',
-        // privacyPolicyUrl: '/privacy-policy',
-        callbacks: {
-          signInSuccessWithAuthResult() {
-            console.log('signInSuccessWithAuthResult')
-          },
-          uiShown() {
-            console.log('uiShown')
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        const firebaseui = require('firebaseui')
+        const ui =
+          firebaseui.auth.AuthUI.getInstance() ||
+          new firebaseui.auth.AuthUI(auth)
+        const config = {
+          signInOptions: [authProviders.Google],
+          signInSuccessUrl: '/dashboard',
+          callbacks: {
+            // Below method is only needed for development,
+            // delete when moving to production.
+            // https://blog.ikedaosushi.com/entry/2019/04/17/201246
+            signInSuccessWithAuthResult: (authResult) => {
+              console.log('signInSuccessWithAuthResult')
+              window.location.href = '/dashboard'
+              return false
+            },
+            uiShown() {
+              console.log('uiShown')
+            }
           }
         }
+        ui.start('#firebaseui-auth-container', config)
       }
-      ui.start('#firebaseui-auth-container', config)
-    }
+    })
   }
 }
 </script>

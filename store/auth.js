@@ -27,12 +27,18 @@ export const mutations = {
 
 export const actions = {
   setUser({ commit }, user) {
-    console.log('ACTION')
+    console.log('ACTION setUser')
     commit('SET_USER', user)
   },
   async logout({ commit }) {
-    await auth.signOut()
-    console.log('logged out')
-    commit('LOGOUT')
+    console.log('ACTION logout')
+    try {
+      console.log('before auth.signOut()')
+      await auth.signOut()
+      console.log('logged out')
+      return commit('LOGOUT')
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
