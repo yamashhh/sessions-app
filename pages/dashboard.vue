@@ -71,9 +71,9 @@ export default {
     },
     async logout() {
       try {
-        console.log('logout button')
+        console.log('dashboard logout button')
         await this.logoutAction()
-        console.log('after await, before router.push')
+        console.log('after await logout, before router.push to route')
         this.$router.push('/')
       } catch (e) {
         console.log('An error occurred while logging out: ', e)

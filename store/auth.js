@@ -15,10 +15,12 @@ export const getters = {
 
 export const mutations = {
   SET_USER(state, user) {
+    console.log('mutation SET_USER')
     state.loggedIn = true
     state.user = user
   },
   LOGOUT(state) {
+    console.log('mutation LOGOUT')
     state.loggedIn = false
     state.user = null
   }
