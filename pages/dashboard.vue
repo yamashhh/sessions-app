@@ -73,7 +73,7 @@ export default {
       try {
         console.log('logout button')
         await this.logoutAction()
-        console.log('after await')
+        console.log('after await, before router.push')
         this.$router.push('/')
       } catch (e) {
         console.log('An error occurred while logging out: ', e)

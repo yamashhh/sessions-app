@@ -1,7 +1,6 @@
 import { auth } from '@/plugins/firebase'
 
 export const state = () => ({
-  loggedIn: false,
   user: null
 })
 
@@ -9,8 +8,8 @@ export const getters = {
   getUser(state) {
     return state.user
   },
-  isLoggedIn(state) {
-    return state.loggedIn
+  loggedIn(state) {
+    return !!state.user
   }
 }
 
