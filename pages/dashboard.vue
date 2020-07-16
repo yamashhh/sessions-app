@@ -10,29 +10,34 @@
       }}
     </p>
     <v-btn @click="logout">logout</v-btn>
-    <ShowCalendar
+    <Calendar
       :sessions="formattedSessions"
       :overlay="overlay"
+      :user="user"
       @fetchSessions="fetchSessions"
     />
-    <NewSession :genres="genres" @fetchSessions="fetchSessions"></NewSession>
+    <NewSession
+      :genres="genres"
+      :user="user"
+      @fetchSessions="fetchSessions"
+    ></NewSession>
   </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ShowCalendar from '@/components/ShowCalendar.vue'
+import Calendar from '@/components/Calendar.vue'
 import NewSession from '@/components/NewSession.vue'
 
 export default {
   name: 'Dashboard',
   components: {
-    ShowCalendar,
+    Calendar,
     NewSession
   },
   async fetch() {
     try {
-      await this.fetchSessions(new Date())
+      await this.fetchSessions({ uid: this.user.uid, dateObj: new Date() })
     } catch (e) {
       console.log(e)
     }
@@ -73,7 +78,7 @@ export default {
       try {
         console.log('dashboard logout button')
         await this.logoutAction()
-        console.log('after await logout, before router.push to route')
+        console.log('after await logout, before router.push to index')
         this.$router.push('/')
       } catch (e) {
         console.log('An error occurred while logging out: ', e)

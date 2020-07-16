@@ -10,7 +10,12 @@ export default (context) => {
         // Make a new object from extracting properties
         // from the original "user" object
         const { uid, displayName } = user
-        store.dispatch('auth/setUser', { uid, displayName })
+        store
+          .dispatch('auth/setUser', { uid, displayName })
+          .then(() => {
+            resolve()
+          })
+          .catch((e) => console.log(e))
       }
       resolve()
     })

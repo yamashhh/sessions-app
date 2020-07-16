@@ -88,6 +88,10 @@ export default {
     overlay: {
       type: Boolean,
       required: true
+    },
+    user: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -166,7 +170,10 @@ export default {
           (this.start.month !== start.month && start.month === thisMonth) ||
           (this.end.month !== end.month && end.month === thisMonth)
         ) {
-          this.$emit('fetchSessions', new Date(start.year, start.month - 1))
+          this.$emit('fetchSessions', {
+            uid: this.user.uid,
+            dateObj: new Date(start.year, start.month - 1)
+          })
         }
       }
       this.start = start

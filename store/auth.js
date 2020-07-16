@@ -1,4 +1,4 @@
-import { auth } from '@/plugins/firebase'
+import { auth, db } from '@/plugins/firebase'
 
 export const state = () => ({
   user: null
@@ -27,8 +27,17 @@ export const mutations = {
 }
 
 export const actions = {
-  setUser({ commit }, user) {
+  async setUser({ commit }, user) {
     console.log('ACTION setUser')
+    const docRef = db.collection('users').doc(user.uid)
+    const doc = await docRef.get()
+    if (!doc.exists) {
+      try {
+        await docRef.set({ uid: user.uid })
+      } catch (e) {
+        console.log('Error: ', e)
+      }
+    }
     commit('SET_USER', user)
   },
   async logout({ commit }) {

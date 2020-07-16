@@ -15,7 +15,11 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <Stopwatch :genres="genres" @fetchSessions="fetchSessions"></Stopwatch>
+      <Stopwatch
+        :genres="genres"
+        :user="user"
+        @fetchSessions="fetchSessions"
+      ></Stopwatch>
     </v-dialog>
     <v-snackbar v-model="snackbar">
       {{ message }}
@@ -36,6 +40,10 @@ export default {
     genres: {
       type: Array,
       required: true
+    },
+    user: {
+      type: Object,
+      required: true
     }
   },
   data() {
@@ -46,10 +54,10 @@ export default {
     }
   },
   methods: {
-    fetchSessions(message, now) {
+    fetchSessions(message, obj) {
       this.snackbar = true
       this.message = message
-      this.$emit('fetchSessions', now)
+      this.$emit('fetchSessions', obj)
     }
   }
 }
