@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <h1>Dashboard</h1>
-    <p v-if="user">
+    <!-- <p v-if="user">
       {{
         `
       ${user.displayName}
       ${user.uid}
       `
       }}
-    </p>
+    </p> -->
     <v-btn @click="logout">logout</v-btn>
     <Calendar
       :sessions="formattedSessions"

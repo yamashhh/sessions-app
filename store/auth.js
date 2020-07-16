@@ -40,12 +40,13 @@ export const actions = {
     }
     commit('SET_USER', user)
   },
-  async logout({ commit }) {
+  async logout({ commit, dispatch }) {
     console.log('ACTION logout')
     try {
       console.log('before auth.signOut()')
       await auth.signOut()
       console.log('logged out')
+      dispatch('sessions/clearSessions', null, { root: true })
       return commit('LOGOUT')
     } catch (e) {
       console.log(e)

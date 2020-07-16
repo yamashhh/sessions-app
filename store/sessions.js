@@ -13,6 +13,9 @@ export const getters = {
 export const mutations = {
   SET_SESSIONS(state, sessions) {
     state.sessions = sessions
+  },
+  CLEAR_SESSIONS(state) {
+    state.sessions = []
   }
 }
 
@@ -94,5 +97,9 @@ export const actions = {
       console.log(e)
       dispatch('overlay/switchOverlay', null, { root: true })
     }
+  },
+  clearSessions({ commit }) {
+    console.log('action clearSessions')
+    commit('CLEAR_SESSIONS')
   }
 }
