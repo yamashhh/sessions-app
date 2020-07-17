@@ -4,13 +4,17 @@
       <nuxt-link to="/">Sessions</nuxt-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn to="/dashboard" nuxt text>Dashboard</v-btn>
+    <v-app-bar-nav-icon @click="switchDrawer"></v-app-bar-nav-icon>
   </v-app-bar>
 </template>
-
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  methods: {
+    switchDrawer() {
+      this.$emit('switchDrawer')
+    }
+  }
 }
 </script>
 

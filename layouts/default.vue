@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <navbar></navbar>
+    <navbar @switchDrawer="switchDrawer"></navbar>
+    <nav-drawer ref="navDrawer"></nav-drawer>
     <v-content>
       <v-container>
         <nuxt />
@@ -11,10 +12,17 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import NavDrawer from '@/components/NavDrawer.vue'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    NavDrawer
+  },
+  methods: {
+    switchDrawer() {
+      this.$refs.navDrawer.switchDrawer()
+    }
   },
   head: {
     titleTemplate: '%s - Sessions',
