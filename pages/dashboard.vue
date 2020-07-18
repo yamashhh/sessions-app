@@ -1,15 +1,6 @@
 <template>
   <v-container>
     <h1>Dashboard</h1>
-    <!-- <p v-if="user">
-      {{
-        `
-      ${user.displayName}
-      ${user.uid}
-      `
-      }}
-    </p> -->
-    <v-btn @click="logout">logout</v-btn>
     <Calendar
       :sessions="formattedSessions"
       :overlay="overlay"
@@ -55,8 +46,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchSessions: 'sessions/fetchSessions',
-      logoutAction: 'auth/logout'
+      fetchSessions: 'sessions/fetchSessions'
     }),
     formatSessions(sessions) {
       return sessions.map((session) => {
@@ -73,16 +63,6 @@ export default {
           end: formattedEnd
         }
       })
-    },
-    async logout() {
-      try {
-        console.log('dashboard logout button')
-        await this.logoutAction()
-        console.log('after await logout, before router.push to index')
-        this.$router.push('/')
-      } catch (e) {
-        console.log('An error occurred while logging out: ', e)
-      }
     }
   },
   head() {

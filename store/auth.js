@@ -16,17 +16,28 @@ export const getters = {
 export const mutations = {
   SET_USER(state, user) {
     console.log('mutation SET_USER')
-    state.loggedIn = true
     state.user = user
   },
   LOGOUT(state) {
     console.log('mutation LOGOUT')
-    state.loggedIn = false
     state.user = null
   }
 }
 
 export const actions = {
+  // signIn() {
+  //   return new Promise((resolve, reject) => {
+  //     auth
+  //       .signInWithRedirect(googleAuth)
+  //       .then(() => {
+  //         // console.log('before dispatch setUser')
+  //         // dispatch('setUser', response)
+  //         // console.log('resolve signIn')
+  //         resolve()
+  //       })
+  //       .catch((e) => reject(e))
+  //   })
+  // },
   async setUser({ commit }, user) {
     console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)
@@ -40,14 +51,12 @@ export const actions = {
     }
     commit('SET_USER', user)
   },
-  async logout({ commit, dispatch }) {
+  async signOut({ commit, dispatch }) {
     console.log('ACTION logout')
     try {
-      console.log('before auth.signOut()')
       await auth.signOut()
-      console.log('logged out')
-      dispatch('sessions/clearSessions', null, { root: true })
-      return commit('LOGOUT')
+      await commit('LOGOUT')
+      await dispatch('sessions/clearSessions', null, { root: true })
     } catch (e) {
       console.log(e)
     }

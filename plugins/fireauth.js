@@ -9,13 +9,13 @@ export default (context) => {
         console.log('USER FOUND')
         // Make a new object from extracting properties
         // from the original "user" object
-        const { uid, displayName } = user
+        const { uid, displayName, photoURL } = user
         store
-          .dispatch('auth/setUser', { uid, displayName })
+          .dispatch('auth/setUser', { uid, displayName, photoURL })
           .then(() => {
             resolve()
           })
-          .catch((e) => console.log(e))
+          .catch((e) => reject(e))
       }
       resolve()
     })

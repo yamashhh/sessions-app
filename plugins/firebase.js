@@ -19,6 +19,7 @@ export const authProviders = {
   Google: firebase.auth.GoogleAuthProvider.PROVIDER_ID
 }
 export const auth = firebase.auth()
+export const googleAuth = new firebase.auth.GoogleAuthProvider()
 export const db = firebase.firestore()
 export const firestore = firebase.firestore
 export default firebase
