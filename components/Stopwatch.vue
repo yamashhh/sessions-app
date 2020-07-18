@@ -45,9 +45,14 @@ import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
 
 export default {
+  name: 'Stopwatch',
   props: {
     genres: {
       type: Array,
+      required: true
+    },
+    user: {
+      type: Object,
       required: true
     }
   },
@@ -95,18 +100,28 @@ export default {
         name: this.selectedGenre,
         start: this.initialTime,
         end: d,
-        totalTime: this.totalTime
+        totalTime: this.totalTime,
+        uid: this.user.uid
       }
-      this.addSession(session)
+      this.addSession({ uid: this.user.uid, session })
         .then(() => {
-          this.$emit(
-            'fetchSessions',
-            'Session was saved successfully.',
-            new Date()
-          )
+          this.$emit('fetchSessions', 'Session was saved successfully.', {
+            uid: this.user.uid,
+            dateObj: new Date()
+          })
           this.clearData()
         })
-        .catch(() => console.log('Error'))
+        .catch((e) => {
+          console.log('Error')
+          this.$emit(
+            'fetchSessions',
+            `There was an error when saving your session: ${e}`,
+            {
+              uid: this.user.uid,
+              dateObj: new Date()
+            }
+          )
+        })
     },
     reset() {
       clearTimeout(this.timeoutId)
