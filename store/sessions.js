@@ -80,11 +80,12 @@ export const actions = {
           const sessions = []
           response.forEach((doc) => {
             sessions.push({
-              id: doc.id,
+              sessionId: doc.id,
               name: doc.data().name,
               start: doc.data().start.toDate(),
               end: doc.data().end.toDate(),
-              totalTime: doc.data().totalTime
+              totalTime: doc.data().totalTime,
+              uid: doc.data().uid
             })
           })
           commit('SET_SESSIONS', sessions)
