@@ -53,7 +53,7 @@ export default {
       this.drawer = !this.drawer
     },
     signOut() {
-      console.log('before redirect')
+      // Redirecting before signOut function to avoid prop error
       this.$router.push('/')
       this.$emit('signOut')
     }

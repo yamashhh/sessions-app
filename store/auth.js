@@ -1,4 +1,4 @@
-import { auth, db } from '@/plugins/firebase'
+import { db } from '@/plugins/firebase'
 
 export const state = () => ({
   user: null
@@ -18,8 +18,8 @@ export const mutations = {
     console.log('mutation SET_USER')
     state.user = user
   },
-  LOGOUT(state) {
-    console.log('mutation LOGOUT')
+  CLEAR_USER(state) {
+    console.log('mutation CLEAR_USER')
     state.user = null
   }
 }
@@ -51,14 +51,9 @@ export const actions = {
     }
     commit('SET_USER', user)
   },
-  async signOut({ commit, dispatch }) {
-    console.log('ACTION logout')
-    try {
-      await auth.signOut()
-      await commit('LOGOUT')
-      await dispatch('sessions/clearSessions', null, { root: true })
-    } catch (e) {
-      console.log(e)
-    }
+  clearUser({ commit, dispatch }) {
+    console.log('ACTION clearUSer')
+    commit('CLEAR_USER')
+    dispatch('sessions/clearSessions', null, { root: true })
   }
 }

@@ -39,7 +39,7 @@ export default {
   methods: {
     ...mapActions({
       setUser: 'auth/setUser',
-      signOut: 'auth/signOut'
+      clearUser: 'auth/clearUser'
     }),
     switchDrawer() {
       this.$refs.navDrawer.switchDrawer()
@@ -51,6 +51,14 @@ export default {
         const { uid, displayName, photoURL } = response.user
         await this.setUser({ uid, displayName, photoURL })
         this.$router.push('/dashboard')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async signOut() {
+      try {
+        await auth.signOut()
+        await this.clearUser()
       } catch (e) {
         console.log(e)
       }
