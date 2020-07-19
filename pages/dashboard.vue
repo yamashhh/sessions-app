@@ -3,7 +3,6 @@
     <h1>Dashboard</h1>
     <Calendar
       :sessions="formattedSessions"
-      :overlay="overlay"
       :user="user"
       @fetchSessions="fetchSessions"
     />
@@ -37,8 +36,7 @@ export default {
     ...mapGetters({
       user: 'auth/getUser',
       sessions: 'sessions/getSessions',
-      genres: 'genres/getGenres',
-      overlay: 'overlay/getOverlay'
+      genres: 'genres/getGenres'
     }),
     formattedSessions() {
       return this.formatSessions(this.sessions)

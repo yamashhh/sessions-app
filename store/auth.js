@@ -8,7 +8,7 @@ export const getters = {
   getUser(state) {
     return state.user
   },
-  loggedIn(state) {
+  signedIn(state) {
     return !!state.user
   }
 }
@@ -25,19 +25,6 @@ export const mutations = {
 }
 
 export const actions = {
-  // signIn() {
-  //   return new Promise((resolve, reject) => {
-  //     auth
-  //       .signInWithRedirect(googleAuth)
-  //       .then(() => {
-  //         // console.log('before dispatch setUser')
-  //         // dispatch('setUser', response)
-  //         // console.log('resolve signIn')
-  //         resolve()
-  //       })
-  //       .catch((e) => reject(e))
-  //   })
-  // },
   async setUser({ commit }, user) {
     console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)

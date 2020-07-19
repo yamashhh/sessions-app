@@ -5,20 +5,17 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-app-bar-nav-icon
-      v-if="loggedIn"
+      v-if="signedIn"
       @click="switchDrawer"
     ></v-app-bar-nav-icon>
-    <v-btn v-else nuxt text small @click="signIn">
-      <v-icon left small>mdi-google</v-icon>
-      Sign in with Google</v-btn
-    >
+    <v-btn v-else nuxt text to="/sign-in">Sign in</v-btn>
   </v-app-bar>
 </template>
 <script>
 export default {
   name: 'Navbar',
   props: {
-    loggedIn: {
+    signedIn: {
       type: Boolean,
       required: true
     }
@@ -26,9 +23,6 @@ export default {
   methods: {
     switchDrawer() {
       this.$emit('switchDrawer')
-    },
-    signIn() {
-      this.$emit('signIn')
     }
   }
 }

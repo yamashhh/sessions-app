@@ -59,9 +59,6 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
-        <v-overlay :value="overlay">
-          <v-progress-circular indeterminate size="64"></v-progress-circular>
-        </v-overlay>
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -83,10 +80,6 @@ export default {
   props: {
     sessions: {
       type: Array,
-      required: true
-    },
-    overlay: {
-      type: Boolean,
       required: true
     },
     user: {

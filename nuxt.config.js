@@ -23,7 +23,7 @@ export default {
    ** Vue Router settings
    */
   router: {
-    middleware: 'auth'
+    middleware: ['auth', 'signIn']
   },
   /*
    ** Customize the progress-bar color
