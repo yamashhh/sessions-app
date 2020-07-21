@@ -39,7 +39,7 @@ export const actions = {
     commit('SET_USER', user)
   },
   clearUser({ commit, dispatch }) {
-    console.log('ACTION clearUSer')
+    console.log('ACTION clearUser')
     commit('CLEAR_USER')
     dispatch('sessions/clearSessions', null, { root: true })
   }

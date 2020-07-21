@@ -105,7 +105,8 @@ export default {
       }
       this.addSession({ uid: this.user.uid, session })
         .then(() => {
-          this.$emit('fetchSessions', 'Session was saved successfully.', {
+          this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
+          this.$emit('fetchSessions', {
             uid: this.user.uid,
             dateObj: new Date()
           })
@@ -113,14 +114,10 @@ export default {
         })
         .catch((e) => {
           console.log('Error')
-          this.$emit(
-            'fetchSessions',
-            `There was an error when saving your session: ${e}`,
-            {
-              uid: this.user.uid,
-              dateObj: new Date()
-            }
-          )
+          this.$emit('fetchSessions', {
+            uid: this.user.uid,
+            dateObj: new Date()
+          })
         })
     },
     reset() {

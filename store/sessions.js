@@ -95,7 +95,7 @@ export const actions = {
           console.log('Error')
         })
     } catch (e) {
-      console.log(e)
+      console.log(e.message)
       dispatch('overlay/switchOverlay', null, { root: true })
     }
   },

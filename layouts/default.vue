@@ -12,6 +12,10 @@
         <nuxt />
       </v-container>
     </v-content>
+    <v-snackbar v-model="snackbar">
+      {{ message }}
+      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
@@ -29,12 +33,21 @@ export default {
     Navbar,
     NavDrawer
   },
+  data() {
+    return {
+      snackbar: false,
+      message: ''
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'auth/getUser',
       signedIn: 'auth/signedIn',
       overlay: 'overlay/getOverlay'
     })
+  },
+  created() {
+    this.snackbarListener()
   },
   methods: {
     ...mapActions({
@@ -44,24 +57,22 @@ export default {
     switchDrawer() {
       this.$refs.navDrawer.switchDrawer()
     },
-    // async signIn() {
-    //   try {
-    //     const response = await auth.signInWithPopup(googleAuth)
-    //     console.log('sign in complete: ', response)
-    //     const { uid, displayName, photoURL } = response.user
-    //     await this.setUser({ uid, displayName, photoURL })
-    //     this.$router.push('/dashboard')
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-    // },
     async signOut() {
       try {
         await auth.signOut()
         await this.clearUser()
+        this.setSnackbar('Sign out complete.')
       } catch (e) {
-        console.log(e)
+        this.switchSnackbar(e.message)
       }
+    },
+    snackbarListener() {
+      this.$nuxt.$on('updateSnackbar', this.setSnackbar)
+    },
+    setSnackbar(message) {
+      console.log('setSnackbar @default.vue')
+      this.snackbar = true
+      this.message = message
     }
   },
   head: {

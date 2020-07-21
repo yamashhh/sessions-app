@@ -38,6 +38,7 @@ export default {
       const { uid, displayName, photoURL } = user
       await this.setUser({ uid, displayName, photoURL })
       this.switchOverlay()
+      this.$nuxt.$emit('updateSnackbar', `Signed in as ${displayName}.`)
       this.$router.push('/dashboard')
     } else {
       console.log('else')
@@ -53,7 +54,7 @@ export default {
       try {
         await auth.signInWithRedirect(googleAuth)
       } catch (e) {
-        console.log(e)
+        this.$nuxt.$emit('updateSnackbar', e.message)
       }
     }
   },
