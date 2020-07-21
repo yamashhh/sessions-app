@@ -21,10 +21,6 @@
         @fetchSessions="fetchSessions"
       ></Stopwatch>
     </v-dialog>
-    <v-snackbar v-model="snackbar">
-      {{ message }}
-      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
-    </v-snackbar>
   </v-row>
 </template>
 
@@ -48,15 +44,11 @@ export default {
   },
   data() {
     return {
-      dialog: false,
-      snackbar: false,
-      message: ''
+      dialog: false
     }
   },
   methods: {
-    fetchSessions(message, obj) {
-      this.snackbar = true
-      this.message = message
+    fetchSessions(obj) {
       this.$emit('fetchSessions', obj)
     }
   }

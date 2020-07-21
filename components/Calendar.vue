@@ -142,12 +142,6 @@ export default {
     updateRange({ start, end }) {
       // Conditions for pagination
       if (this.start != null && this.end != null) {
-        // console.log(`
-        // this.start.month: ${this.start.month}
-        // this.end.month: ${this.end.month}
-        // start.month: ${start.month}
-        // end.month: ${end.month}
-        // `)
         const thisMonth = new Date().getMonth() + 1
         if (
           // If the calendar view is MONTH,

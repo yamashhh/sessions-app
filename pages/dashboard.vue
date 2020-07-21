@@ -29,7 +29,7 @@ export default {
     try {
       await this.fetchSessions({ uid: this.user.uid, dateObj: new Date() })
     } catch (e) {
-      console.log(e)
+      console.log(e.message)
     }
   },
   computed: {
@@ -55,10 +55,12 @@ export default {
           'YYYY-MM-DD HH:mm'
         )
         return {
-          id: session.id,
+          sessionId: session.sessionId,
           name: session.name,
           start: formattedStart,
-          end: formattedEnd
+          end: formattedEnd,
+          totalTime: session.totalTime,
+          uid: session.uid
         }
       })
     }
