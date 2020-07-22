@@ -39,9 +39,9 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="type = 'day'">
+              <v-list-item @click="type = 'month'">
                 <v-list-item-title
-                  ><v-icon left>mdi-view-day</v-icon>Day</v-list-item-title
+                  ><v-icon left>mdi-view-module</v-icon>Month</v-list-item-title
                 >
               </v-list-item>
               <v-list-item @click="type = 'week'">
@@ -49,9 +49,9 @@
                   ><v-icon left>mdi-view-week</v-icon>Week</v-list-item-title
                 >
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item @click="type = 'day'">
                 <v-list-item-title
-                  ><v-icon left>mdi-view-module</v-icon>Month</v-list-item-title
+                  ><v-icon left>mdi-view-day</v-icon>Day</v-list-item-title
                 >
               </v-list-item>
             </v-list>
@@ -67,8 +67,54 @@
           :type="type"
           @click:more="viewDay"
           @click:date="viewDay"
+          @click:event="showEvent"
           @change="updateRange"
         ></v-calendar>
+        <!-- Event card -->
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <v-card min-width="250px">
+            <v-toolbar color="primary" dark>
+              <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text class="display-2 text-center">
+              {{ $moment.utc(selectedEvent.totalTime).format('HH:mm:ss') }}
+            </v-card-text>
+            <v-card-subtitle>Start</v-card-subtitle>
+            <v-card-text>
+              {{
+                $moment(selectedEvent.start).format(
+                  'dddd, MMMM Do YYYY, HH:mm:ss'
+                )
+              }}
+              <!-- {{ selectedEvent.start }} -->
+            </v-card-text>
+            <v-card-subtitle>End</v-card-subtitle>
+            <v-card-text>
+              {{
+                $moment(selectedEvent.end).format(
+                  'dddd, MMMM Do YYYY, HH:mm:ss'
+                )
+              }}
+              <!-- {{ selectedEvent.end }} -->
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn text @click="selectedOpen = false">
+                Close
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
       </v-sheet>
     </v-col>
   </v-row>
@@ -93,6 +139,9 @@ export default {
       end: null,
       focus: '',
       type: 'month',
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
       typeToIcon: {
         month: 'mdi-view-module',
         week: 'mdi-view-week',
@@ -138,6 +187,21 @@ export default {
     },
     next() {
       this.$refs.calendar.next()
+    },
+    showEvent({ nativeEvent, event }) {
+      console.log(event)
+      const open = () => {
+        this.selectedEvent = event
+        this.selectedElement = nativeEvent.target
+        setTimeout(() => (this.selectedOpen = true), 10)
+      }
+      if (this.selectedOpen) {
+        this.selectedOpen = false
+        setTimeout(open, 10)
+      } else {
+        open()
+      }
+      nativeEvent.stopPropagation()
     },
     updateRange({ start, end }) {
       // Conditions for pagination

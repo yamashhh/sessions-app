@@ -12,9 +12,9 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-snackbar v-model="snackbar">
+    <v-snackbar v-model="snackbar" color="primary">
       {{ message }}
-      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+      <v-btn text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
