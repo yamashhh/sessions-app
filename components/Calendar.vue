@@ -70,59 +70,24 @@
           @click:event="showEvent"
           @change="updateRange"
         ></v-calendar>
-        <!-- Event card -->
-        <v-menu
-          v-model="selectedOpen"
-          :close-on-content-click="false"
-          :activator="selectedElement"
-          offset-x
-        >
-          <v-card min-width="250px">
-            <v-toolbar color="primary" dark>
-              <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text class="display-2 text-center">
-              {{ $moment.utc(selectedEvent.totalTime).format('HH:mm:ss') }}
-            </v-card-text>
-            <v-card-subtitle>Start</v-card-subtitle>
-            <v-card-text>
-              {{
-                $moment(selectedEvent.start).format(
-                  'dddd, MMMM Do YYYY, HH:mm:ss'
-                )
-              }}
-              <!-- {{ selectedEvent.start }} -->
-            </v-card-text>
-            <v-card-subtitle>End</v-card-subtitle>
-            <v-card-text>
-              {{
-                $moment(selectedEvent.end).format(
-                  'dddd, MMMM Do YYYY, HH:mm:ss'
-                )
-              }}
-              <!-- {{ selectedEvent.end }} -->
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn text @click="selectedOpen = false">
-                Close
-              </v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
+        <EventCard
+          ref="eventCard"
+          :selected-event="selectedEvent"
+          :selected-element="selectedElement"
+        ></EventCard>
       </v-sheet>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import EventCard from '@/components/EventCard.vue'
+
 export default {
-  name: 'ShowCalendar',
+  name: 'Calendar',
+  components: {
+    EventCard
+  },
   props: {
     sessions: {
       type: Array,
@@ -141,7 +106,7 @@ export default {
       type: 'month',
       selectedEvent: {},
       selectedElement: null,
-      selectedOpen: false,
+      // selectedOpen: false,
       typeToIcon: {
         month: 'mdi-view-module',
         week: 'mdi-view-week',
@@ -189,14 +154,13 @@ export default {
       this.$refs.calendar.next()
     },
     showEvent({ nativeEvent, event }) {
-      console.log(event)
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
-        setTimeout(() => (this.selectedOpen = true), 10)
+        setTimeout(() => this.$refs.eventCard.switchSelectedOpen(true), 10)
       }
-      if (this.selectedOpen) {
-        this.selectedOpen = false
+      if (this.$refs.eventCard.selectedOpen) {
+        this.$refs.eventCard.switchSelectedOpen(false)
         setTimeout(open, 10)
       } else {
         open()

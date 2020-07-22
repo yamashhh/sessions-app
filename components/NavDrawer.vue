@@ -23,12 +23,6 @@
           </v-list-item-icon>
           <v-list-item-title>Dashboard</v-list-item-title>
         </v-list-item>
-        <!-- <v-list-item @click="signOut">
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Sign out</v-list-item-title>
-        </v-list-item> -->
       </v-list-item-group>
     </v-list>
     <template v-slot:append>
