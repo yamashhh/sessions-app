@@ -39,9 +39,9 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item @click="type = 'day'">
+              <v-list-item @click="type = 'month'">
                 <v-list-item-title
-                  ><v-icon left>mdi-view-day</v-icon>Day</v-list-item-title
+                  ><v-icon left>mdi-view-module</v-icon>Month</v-list-item-title
                 >
               </v-list-item>
               <v-list-item @click="type = 'week'">
@@ -49,9 +49,9 @@
                   ><v-icon left>mdi-view-week</v-icon>Week</v-list-item-title
                 >
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item @click="type = 'day'">
                 <v-list-item-title
-                  ><v-icon left>mdi-view-module</v-icon>Month</v-list-item-title
+                  ><v-icon left>mdi-view-day</v-icon>Day</v-list-item-title
                 >
               </v-list-item>
             </v-list>
@@ -67,16 +67,27 @@
           :type="type"
           @click:more="viewDay"
           @click:date="viewDay"
+          @click:event="showEvent"
           @change="updateRange"
         ></v-calendar>
+        <EventCard
+          ref="eventCard"
+          :selected-event="selectedEvent"
+          :selected-element="selectedElement"
+        ></EventCard>
       </v-sheet>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import EventCard from '@/components/EventCard.vue'
+
 export default {
-  name: 'ShowCalendar',
+  name: 'Calendar',
+  components: {
+    EventCard
+  },
   props: {
     sessions: {
       type: Array,
@@ -93,6 +104,9 @@ export default {
       end: null,
       focus: '',
       type: 'month',
+      selectedEvent: {},
+      selectedElement: null,
+      // selectedOpen: false,
       typeToIcon: {
         month: 'mdi-view-module',
         week: 'mdi-view-week',
@@ -138,6 +152,20 @@ export default {
     },
     next() {
       this.$refs.calendar.next()
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event
+        this.selectedElement = nativeEvent.target
+        setTimeout(() => this.$refs.eventCard.switchSelectedOpen(true), 10)
+      }
+      if (this.$refs.eventCard.selectedOpen) {
+        this.$refs.eventCard.switchSelectedOpen(false)
+        setTimeout(open, 10)
+      } else {
+        open()
+      }
+      nativeEvent.stopPropagation()
     },
     updateRange({ start, end }) {
       // Conditions for pagination

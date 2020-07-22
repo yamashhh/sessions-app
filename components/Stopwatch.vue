@@ -1,12 +1,13 @@
 <template>
   <v-card>
-    <v-card-title>
-      New Session
-    </v-card-title>
-    <v-card-text class="display-2 text-center">
+    <v-toolbar color="primary" dark>
+      <v-toolbar-title>New Session</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-card-text class="pt-5 display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="px-6">
       <v-select
         v-model="selectedGenre"
         :items="genres"
