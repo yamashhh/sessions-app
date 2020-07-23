@@ -72,8 +72,10 @@
         ></v-calendar>
         <EventCard
           ref="eventCard"
+          :user="user"
           :selected-event="selectedEvent"
           :selected-element="selectedElement"
+          @fetchSessions="fetchSessions"
         ></EventCard>
       </v-sheet>
     </v-col>
@@ -193,6 +195,10 @@ export default {
       }
       this.start = start
       this.end = end
+    },
+    fetchSessions(obj) {
+      console.log('fetchSession @Calendar')
+      this.$emit('fetchSessions', obj)
     }
   }
 }

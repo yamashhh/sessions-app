@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" max-width="300px">
+    <v-dialog v-model="dialog" persistent max-width="300px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
@@ -19,6 +19,7 @@
         :genres="genres"
         :user="user"
         @fetchSessions="fetchSessions"
+        @closeDialog="closeDialog"
       ></Stopwatch>
     </v-dialog>
   </v-row>
@@ -50,6 +51,9 @@ export default {
   methods: {
     fetchSessions(obj) {
       this.$emit('fetchSessions', obj)
+    },
+    closeDialog() {
+      this.dialog = false
     }
   }
 }
