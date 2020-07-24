@@ -56,6 +56,7 @@ export const actions = {
       })
   },
   fetchSessions({ commit, dispatch }, { uid, dateObj }) {
+    console.log('action sessions/fetchSessions')
     dispatch('overlay/switchOverlay', null, { root: true })
     try {
       const year = dateObj.getFullYear()
