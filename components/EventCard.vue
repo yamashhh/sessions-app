@@ -9,26 +9,27 @@
       <v-toolbar color="primary" dark>
         <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
+        <ConfirmDialog
+          :user="user"
+          :selected-event="selectedEvent"
+          @switchSelectedOpen="switchSelectedOpen"
+          @fetchSessions="fetchSessions"
+        ></ConfirmDialog>
       </v-toolbar>
       <v-card-text class="display-2 text-center">
         {{ $moment.utc(selectedEvent.totalTime).format('HH:mm:ss') }}
       </v-card-text>
-      <v-card-subtitle>Start</v-card-subtitle>
+      <v-card-subtitle class="font-weight-bold">Start</v-card-subtitle>
       <v-card-text>
-        {{
-          $moment(selectedEvent.start).format('dddd, MMMM Do YYYY, HH:mm:ss')
-        }}
+        {{ $moment(selectedEvent.start).format('dddd, MMMM Do YYYY, HH:mm') }}
       </v-card-text>
-      <v-card-subtitle>End</v-card-subtitle>
+      <v-card-subtitle class="font-weight-bold">End</v-card-subtitle>
       <v-card-text>
-        {{ $moment(selectedEvent.end).format('dddd, MMMM Do YYYY, HH:mm:ss') }}
+        {{ $moment(selectedEvent.end).format('dddd, MMMM Do YYYY, HH:mm') }}
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text @click="selectedOpen = false">
+        <v-btn depressed @click="selectedOpen = false">
           Close
         </v-btn>
         <v-spacer></v-spacer>
@@ -38,9 +39,18 @@
 </template>
 
 <script>
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
+
 export default {
   name: 'EventCard',
+  components: {
+    ConfirmDialog
+  },
   props: {
+    user: {
+      type: Object,
+      required: true
+    },
     selectedEvent: {
       type: Object,
       required: true
@@ -61,6 +71,10 @@ export default {
   methods: {
     switchSelectedOpen(bool) {
       this.selectedOpen = bool
+    },
+    fetchSessions(obj) {
+      console.log('fetchSessions @EventCard')
+      this.$emit('fetchSessions', obj)
     }
   }
 }

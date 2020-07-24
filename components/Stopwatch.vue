@@ -3,11 +3,12 @@
     <v-toolbar color="primary" dark>
       <v-toolbar-title>New Session</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-icon @click="closeDialog">mdi-close</v-icon>
     </v-toolbar>
     <v-card-text class="pt-5 display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
     </v-card-text>
-    <v-card-actions class="px-6">
+    <v-card-actions>
       <v-select
         v-model="selectedGenre"
         :items="genres"
@@ -17,7 +18,7 @@
         outlined
       ></v-select>
     </v-card-actions>
-    <v-card-actions>
+    <!-- <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
         :color="timerState !== 'started' ? 'primary' : 'warning'"
@@ -37,6 +38,37 @@
         >Reset</v-btn
       >
       <v-spacer></v-spacer>
+    </v-card-actions> -->
+    <v-card-actions>
+      <v-btn
+        block
+        depressed
+        :color="timerState !== 'started' ? 'primary' : 'warning'"
+        :disabled="selectedGenre === '' || saving"
+        @click="startOrStop"
+        >{{ buttonText }}</v-btn
+      >
+    </v-card-actions>
+    <v-card-actions>
+      <v-btn
+        block
+        depressed
+        color="success"
+        :disabled="timerState !== 'stopped' || selectedGenre === ''"
+        :loading="saving"
+        @click="save"
+        >Save</v-btn
+      >
+    </v-card-actions>
+    <v-card-actions>
+      <v-btn
+        block
+        depressed
+        color="error"
+        :disabled="timerState !== 'stopped' || saving"
+        @click="reset"
+        >Reset</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
@@ -66,13 +98,17 @@ export default {
       startTime: 0,
       elapsedTime: 0,
       totalTime: 0,
-      timeoutId: null
+      timeoutId: null,
+      saving: false
     }
   },
   methods: {
     ...mapActions({
       addSession: 'sessions/addSession'
     }),
+    closeDialog() {
+      this.$emit('closeDialog')
+    },
     startOrStop() {
       if (this.timerState !== 'started') {
         if (this.timerState === 'initial') {
@@ -95,31 +131,33 @@ export default {
         this.countUp()
       }, 10)
     },
-    save() {
-      const d = firestore.Timestamp.now()
-      const session = {
-        name: this.selectedGenre,
-        start: this.initialTime,
-        end: d,
-        totalTime: this.totalTime,
-        uid: this.user.uid
+    async save() {
+      try {
+        this.saving = true
+        const d = firestore.Timestamp.now()
+        const session = {
+          name: this.selectedGenre,
+          start: this.initialTime,
+          end: d,
+          totalTime: this.totalTime,
+          uid: this.user.uid
+        }
+        await this.addSession({ uid: this.user.uid, session })
+        this.saving = false
+        this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
+        this.$emit('fetchSessions', {
+          uid: this.user.uid,
+          dateObj: new Date()
+        })
+        this.clearData()
+      } catch (e) {
+        this.saving = false
+        console.log('Error: ', e.message)
+        // this.$emit('fetchSessions', {
+        //   uid: this.user.uid,
+        //   dateObj: new Date()
+        // })
       }
-      this.addSession({ uid: this.user.uid, session })
-        .then(() => {
-          this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
-          this.$emit('fetchSessions', {
-            uid: this.user.uid,
-            dateObj: new Date()
-          })
-          this.clearData()
-        })
-        .catch((e) => {
-          console.log('Error')
-          this.$emit('fetchSessions', {
-            uid: this.user.uid,
-            dateObj: new Date()
-          })
-        })
     },
     reset() {
       clearTimeout(this.timeoutId)
@@ -138,4 +176,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-card__actions {
+  padding: 8px 24px;
+}
+</style>

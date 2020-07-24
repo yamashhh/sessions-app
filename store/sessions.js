@@ -36,7 +36,27 @@ export const actions = {
         dispatch('overlay/switchOverlay', null, { root: true })
       })
   },
+  deleteSession({ dispatch }, { uid, sessionId }) {
+    console.log('deleteSession @store/sessions')
+    dispatch('overlay/switchOverlay', null, { root: true })
+    const session = db
+      .collection('users')
+      .doc(uid)
+      .collection('sessions')
+      .doc(sessionId)
+    return session
+      .delete()
+      .then(() => {
+        console.log('deleted')
+        dispatch('overlay/switchOverlay', null, { root: true })
+      })
+      .catch((e) => {
+        console.log(e)
+        dispatch('overlay/switchOverlay', null, { root: true })
+      })
+  },
   fetchSessions({ commit, dispatch }, { uid, dateObj }) {
+    console.log('action sessions/fetchSessions')
     dispatch('overlay/switchOverlay', null, { root: true })
     try {
       const year = dateObj.getFullYear()
