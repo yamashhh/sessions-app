@@ -3,7 +3,10 @@
     <v-toolbar color="primary" dark>
       <v-toolbar-title>New Session</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-icon @click="closeDialog">mdi-close</v-icon>
+      <ConfirmClose
+        :timer-state="timerState"
+        @closeDialog="closeDialog"
+      ></ConfirmClose>
     </v-toolbar>
     <v-card-text class="pt-5 display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
@@ -18,27 +21,6 @@
         outlined
       ></v-select>
     </v-card-actions>
-    <!-- <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn
-        :color="timerState !== 'started' ? 'primary' : 'warning'"
-        :disabled="selectedGenre === ''"
-        @click="startOrStop"
-        >{{ buttonText }}</v-btn
-      >
-      <v-spacer></v-spacer>
-      <v-btn
-        color="success"
-        :disabled="timerState !== 'stopped' || selectedGenre === ''"
-        @click="save"
-        >Save</v-btn
-      >
-      <v-spacer></v-spacer>
-      <v-btn color="error" :disabled="timerState !== 'stopped'" @click="reset"
-        >Reset</v-btn
-      >
-      <v-spacer></v-spacer>
-    </v-card-actions> -->
     <v-card-actions>
       <v-btn
         block
@@ -76,9 +58,13 @@
 <script>
 import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
+import ConfirmClose from '@/components/ConfirmClose.vue'
 
 export default {
   name: 'Stopwatch',
+  components: {
+    ConfirmClose
+  },
   props: {
     genres: {
       type: Array,
@@ -107,6 +93,8 @@ export default {
       addSession: 'sessions/addSession'
     }),
     closeDialog() {
+      console.log('closeDialog @stopwatch')
+      this.reset()
       this.$emit('closeDialog')
     },
     startOrStop() {
@@ -144,22 +132,19 @@ export default {
         }
         await this.addSession({ uid: this.user.uid, session })
         this.saving = false
+        this.closeDialog()
         this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: new Date()
         })
-        this.clearData()
       } catch (e) {
         this.saving = false
-        console.log('Error: ', e.message)
-        // this.$emit('fetchSessions', {
-        //   uid: this.user.uid,
-        //   dateObj: new Date()
-        // })
+        this.$nuxt.$emit('updateSnackbar', e.message)
       }
     },
     reset() {
+      console.log('reset @stopwatch')
       clearTimeout(this.timeoutId)
       this.clearData()
     },
