@@ -6,7 +6,7 @@
     offset-x
   >
     <v-card min-width="250px">
-      <v-toolbar color="primary" dark>
+      <v-toolbar :color="selectedEvent.color" dark>
         <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <ConfirmDelete

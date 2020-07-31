@@ -64,6 +64,7 @@
           v-model="focus"
           color="primary"
           :events="sessions"
+          :event-color="getEventColor"
           :type="type"
           @click:more="viewDay"
           @click:date="viewDay"
@@ -155,6 +156,9 @@ export default {
     next() {
       this.$refs.calendar.next()
     },
+    getEventColor(event) {
+      return event.color
+    },
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event
@@ -172,7 +176,6 @@ export default {
     updateRange({ start, end }) {
       // Conditions for pagination
       if (this.start != null && this.end != null) {
-        const thisMonth = new Date().getMonth() + 1
         if (
           // If the calendar view is MONTH,
           // WEEK (when it only shows next month),
@@ -183,9 +186,8 @@ export default {
           // If the calendar view is WEEK
           // (when it shows both previous/next month)
           (this.start.month !== this.end.month && start.month === end.month) ||
-          // If the user pressed "TODAY" button
-          (this.start.month !== start.month && start.month === thisMonth) ||
-          (this.end.month !== end.month && end.month === thisMonth)
+          // // If the user pressed "TODAY" button
+          this.focus === ''
         ) {
           this.$emit('fetchSessions', {
             uid: this.user.uid,
