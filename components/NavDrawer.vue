@@ -2,13 +2,23 @@
   <v-navigation-drawer v-model="drawer" app temporary right>
     <v-list nav>
       <v-list-item-group>
-        <v-list-item inactive :ripple="false">
-          <v-list-item-avatar>
-            <v-img :src="user.photoURL"></v-img>
+        <v-list-item to="/settings" nuxt>
+          <v-list-item-avatar color="grey">
+            <v-img
+              v-if="user.photoURL"
+              :src="user.photoURL"
+              :alt="user.displayName"
+            ></v-img>
+            <v-icon v-else>mdi-account</v-icon>
           </v-list-item-avatar>
-          <v-list-item-title>
-            {{ user.displayName }}
-          </v-list-item-title>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ user.displayName }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              Settings
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item to="/" nuxt>
