@@ -25,13 +25,14 @@ export const mutations = {
 }
 
 export const actions = {
-  async setUser({ commit }, user) {
+  async setUser({ commit, rootGetters }, user) {
     console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)
     const doc = await docRef.get()
     if (!doc.exists) {
+      const defaultCategories = rootGetters['categories/getDefault']
       try {
-        await docRef.set({ uid: user.uid })
+        await docRef.set({ uid: user.uid, categories: defaultCategories })
       } catch (e) {
         console.log('Error: ', e)
       }

@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     user: {
@@ -60,12 +62,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      deleteSessionAction: 'sessions/deleteSession',
+      switchOverlay: 'overlay/switchOverlay'
+    }),
     async deleteSession() {
+      this.switchOverlay(true)
       try {
         console.log('deleteSession')
         this.deleting = true
         console.log('before store/sessions/deleteSession')
-        await this.$store.dispatch('sessions/deleteSession', {
+        await this.deleteSessionAction({
           uid: this.user.uid,
           sessionId: this.selectedEvent.sessionId
         })
@@ -78,9 +85,11 @@ export default {
           uid: this.user.uid,
           dateObj: this.$moment(this.selectedEvent.start).toDate()
         })
+        this.switchOverlay(false)
       } catch (e) {
         this.deleting = false
         console.log('Error: ', e.message)
+        this.switchOverlay(false)
       }
     }
   }

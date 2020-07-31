@@ -32,17 +32,15 @@ export default {
         resolve(user)
       })
     })
-    console.log(user)
     if (user) {
       console.log('if user')
       const { uid, displayName, photoURL } = user
       await this.setUser({ uid, displayName, photoURL })
-      this.switchOverlay()
       this.$nuxt.$emit('updateSnackbar', `Signed in as ${displayName}.`)
       this.$router.push('/dashboard')
     } else {
       console.log('else')
-      this.switchOverlay()
+      this.switchOverlay(false)
     }
   },
   methods: {

@@ -7,7 +7,7 @@
       @fetchSessions="fetchSessions"
     />
     <NewSession
-      :genres="genres"
+      :categories="categories"
       :user="user"
       @fetchSessions="fetchSessions"
     ></NewSession>
@@ -26,17 +26,24 @@ export default {
     NewSession
   },
   async fetch() {
+    this.switchOverlay(true)
     try {
-      await this.fetchSessions({ uid: this.user.uid, dateObj: new Date() })
+      await this.fetchSessionsAction({
+        uid: this.user.uid,
+        dateObj: new Date()
+      })
+      await this.fetchCategories(this.user.uid)
+      this.switchOverlay(false)
     } catch (e) {
-      console.log(e.message)
+      console.log(e)
+      this.switchOverlay(false)
     }
   },
   computed: {
     ...mapGetters({
       user: 'auth/getUser',
       sessions: 'sessions/getSessions',
-      genres: 'genres/getGenres'
+      categories: 'categories/getCategories'
     }),
     formattedSessions() {
       return this.formatSessions(this.sessions)
@@ -44,7 +51,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchSessions: 'sessions/fetchSessions'
+      fetchSessionsAction: 'sessions/fetchSessions',
+      fetchCategories: 'categories/fetchCategories',
+      switchOverlay: 'overlay/switchOverlay'
     }),
     formatSessions(sessions) {
       return sessions.map((session) => {
@@ -57,12 +66,23 @@ export default {
         return {
           sessionId: session.sessionId,
           name: session.name,
+          color: session.color,
           start: formattedStart,
           end: formattedEnd,
           totalTime: session.totalTime,
           uid: session.uid
         }
       })
+    },
+    async fetchSessions(obj) {
+      this.switchOverlay(true)
+      try {
+        await this.fetchSessionsAction(obj)
+        this.switchOverlay(false)
+      } catch (e) {
+        console.log(e.message)
+        this.switchOverlay(false)
+      }
     }
   },
   head() {
