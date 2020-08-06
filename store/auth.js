@@ -25,15 +25,27 @@ export const mutations = {
 }
 
 export const actions = {
-  async setUser({ commit }, user) {
+  async setUser({ commit, dispatch, rootGetters }, user) {
     console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)
     const doc = await docRef.get()
     if (!doc.exists) {
+      const defaultCategories = rootGetters['categories/getDefault']
       try {
-        await docRef.set({ uid: user.uid })
+        await docRef.set({ uid: user.uid, categoriesLength: 0 })
+        for (const elem of defaultCategories) {
+          console.log('adding category: ', elem.name)
+          const categoryId = elem.name
+          const categoryData = { color: elem.color, uid: user.uid }
+          const payload = { uid: user.uid, categoryId, categoryData }
+          await dispatch('categories/addCategory', payload, { root: true })
+        }
+        await dispatch('categories/updateCategoriesLength', user.uid, {
+          root: true
+        })
       } catch (e) {
-        console.log('Error: ', e)
+        console.log(e)
+        throw new Error('An error occurred while creating a user.')
       }
     }
     commit('SET_USER', user)
@@ -42,5 +54,6 @@ export const actions = {
     console.log('ACTION clearUser')
     commit('CLEAR_USER')
     dispatch('sessions/clearSessions', null, { root: true })
+    dispatch('categories/clearCategories', null, { root: true })
   }
 }

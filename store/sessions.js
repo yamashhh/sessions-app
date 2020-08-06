@@ -12,111 +12,103 @@ export const getters = {
 
 export const mutations = {
   SET_SESSIONS(state, sessions) {
+    console.log('commit SET_SESSIONS')
     state.sessions = sessions
+    console.log('finished commit SET_SESSIONS')
   },
   CLEAR_SESSIONS(state) {
+    console.log('mutation CLEAR_SESSIONS')
     state.sessions = []
   }
 }
 
 export const actions = {
-  addSession({ dispatch }, { uid, session }) {
-    dispatch('overlay/switchOverlay', null, { root: true })
+  async addSession({}, { uid, session }) {
     const sessions = db
       .collection('users')
       .doc(uid)
       .collection('sessions')
-    return sessions
-      .add(session)
-      .then(() => {
-        dispatch('overlay/switchOverlay', null, { root: true })
-      })
-      .catch((e) => {
-        console.log(e)
-        dispatch('overlay/switchOverlay', null, { root: true })
-      })
+    try {
+      await sessions.add(session)
+      console.log('finished adding session')
+    } catch (e) {
+      console.log(e)
+      throw new Error('An error occurred while adding session to the server.')
+    }
   },
-  deleteSession({ dispatch }, { uid, sessionId }) {
+  async deleteSession({}, { uid, sessionId }) {
     console.log('deleteSession @store/sessions')
-    dispatch('overlay/switchOverlay', null, { root: true })
     const session = db
       .collection('users')
       .doc(uid)
       .collection('sessions')
       .doc(sessionId)
-    return session
-      .delete()
-      .then(() => {
-        console.log('deleted')
-        dispatch('overlay/switchOverlay', null, { root: true })
-      })
-      .catch((e) => {
-        console.log(e)
-        dispatch('overlay/switchOverlay', null, { root: true })
-      })
-  },
-  fetchSessions({ commit, dispatch }, { uid, dateObj }) {
-    console.log('action sessions/fetchSessions')
-    dispatch('overlay/switchOverlay', null, { root: true })
     try {
-      const year = dateObj.getFullYear()
-      const month = dateObj.getMonth()
-      let pastYear = null
-      let futureYear = null
-      let pastMonth = null
-      let futureMonth = null
-      if (month === 0) {
-        pastYear = year - 1
-        futureYear = year
-        pastMonth = 11
-        futureMonth = 2
-      } else if (month >= 10) {
-        pastYear = year
-        futureYear = year + 1
-        pastMonth = month - 1
-        month === 10 ? (futureMonth = 0) : (futureMonth = 1)
-      } else {
-        pastYear = year
-        futureYear = year
-        pastMonth = month - 1
-        futureMonth = month + 2
-      }
-      const pastDate = firestore.Timestamp.fromDate(
-        new Date(pastYear, pastMonth)
-      )
-      const futureDate = firestore.Timestamp.fromDate(
-        new Date(futureYear, futureMonth)
-      )
-      const sessions = db
-        .collection('users')
-        .doc(uid)
-        .collection('sessions')
-      const query = sessions
-        .where('start', '>=', pastDate)
-        .where('start', '<', futureDate)
-      return query
-        .get()
-        .then((response) => {
-          const sessions = []
-          response.forEach((doc) => {
-            sessions.push({
-              sessionId: doc.id,
-              name: doc.data().name,
-              start: doc.data().start.toDate(),
-              end: doc.data().end.toDate(),
-              totalTime: doc.data().totalTime,
-              uid: doc.data().uid
-            })
-          })
-          commit('SET_SESSIONS', sessions)
-          dispatch('overlay/switchOverlay', null, { root: true })
-        })
-        .catch(() => {
-          console.log('Error')
-        })
+      await session.delete()
+      console.log('finished deleting session')
     } catch (e) {
-      console.log(e.message)
-      dispatch('overlay/switchOverlay', null, { root: true })
+      console.log(e)
+      throw new Error(
+        'An error occurred while deleting session from the server.'
+      )
+    }
+  },
+  async fetchSessions({ commit }, { uid, dateObj }) {
+    console.log('action sessions/fetchSessions')
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth()
+    let pastYear = null
+    let futureYear = null
+    let pastMonth = null
+    let futureMonth = null
+    if (month === 0) {
+      pastYear = year - 1
+      futureYear = year
+      pastMonth = 11
+      futureMonth = 2
+    } else if (month >= 10) {
+      pastYear = year
+      futureYear = year + 1
+      pastMonth = month - 1
+      month === 10 ? (futureMonth = 0) : (futureMonth = 1)
+    } else {
+      pastYear = year
+      futureYear = year
+      pastMonth = month - 1
+      futureMonth = month + 2
+    }
+    const pastDate = firestore.Timestamp.fromDate(new Date(pastYear, pastMonth))
+    const futureDate = firestore.Timestamp.fromDate(
+      new Date(futureYear, futureMonth)
+    )
+    const sessionsRef = db
+      .collection('users')
+      .doc(uid)
+      .collection('sessions')
+    const query = sessionsRef
+      .where('start', '>=', pastDate)
+      .where('start', '<', futureDate)
+    try {
+      const response = await query.get()
+      const sessions = []
+      response.forEach((doc) => {
+        sessions.push({
+          sessionId: doc.id,
+          name: doc.data().name,
+          color: doc.data().color,
+          start: doc.data().start.toDate(),
+          end: doc.data().end.toDate(),
+          totalTime: doc.data().totalTime,
+          uid: doc.data().uid
+        })
+      })
+      console.log('fetchSessions completed')
+      commit('SET_SESSIONS', sessions)
+    } catch (e) {
+      console.log(e)
+      throw new Error(
+        'An error occurred while fetching sessions from the server.'
+      )
     }
   },
   clearSessions({ commit }) {

@@ -1,0 +1,73 @@
+<template>
+  <v-container>
+    <h1>Settings</h1>
+    <UserCard :user="user"></UserCard>
+    <CategoriesCard
+      :user="user"
+      :categories="categories"
+      :categories-length="categoriesLength"
+      @fetchCategories="fetchCategories"
+    ></CategoriesCard>
+    <v-row>
+      <v-col>
+        <v-sheet max-width="600" class="mx-auto pa-2">
+          <v-btn block color="error">Delete account</v-btn>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+import UserCard from '@/components/UserCard.vue'
+import CategoriesCard from '@/components/CategoriesCard.vue'
+
+export default {
+  components: {
+    UserCard,
+    CategoriesCard
+  },
+  async fetch() {
+    try {
+      await this.fetchCategories(this.user.uid)
+    } catch (e) {
+      console.log(e.message)
+      this.switchOverlay(false)
+    }
+  },
+  data() {
+    return {
+      dialog: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/getUser',
+      categories: 'categories/getCategories',
+      categoriesLength: 'categories/getCategoriesLength'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchCategoriesAction: 'categories/fetchCategories',
+      updateCategoriesLength: 'categories/updateCategoriesLength',
+      switchOverlay: 'overlay/switchOverlay'
+    }),
+    async fetchCategories(uid) {
+      console.log('fetchCategories @settings')
+      this.switchOverlay(true)
+      try {
+        await this.fetchCategoriesAction(uid)
+        await this.updateCategoriesLength(this.user.uid)
+        this.switchOverlay(false)
+      } catch (e) {
+        console.log(e.message)
+        this.switchOverlay(false)
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped></style>

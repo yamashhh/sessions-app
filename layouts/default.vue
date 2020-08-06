@@ -12,7 +12,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-snackbar v-model="snackbar" color="primary">
+    <v-snackbar v-model="snackbar" :color="color">
       {{ message }}
       <v-btn text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
@@ -36,7 +36,8 @@ export default {
   data() {
     return {
       snackbar: false,
-      message: ''
+      message: '',
+      color: ''
     }
   },
   computed: {
@@ -61,17 +62,18 @@ export default {
       try {
         await auth.signOut()
         await this.clearUser()
-        this.setSnackbar('Sign out complete.')
+        this.setSnackbar('primary', 'Sign out complete.')
       } catch (e) {
-        this.switchSnackbar(e.message)
+        this.switchSnackbar('error', e.message)
       }
     },
     snackbarListener() {
       this.$nuxt.$on('updateSnackbar', this.setSnackbar)
     },
-    setSnackbar(message) {
+    setSnackbar(color, message) {
       console.log('setSnackbar @default.vue')
       this.snackbar = true
+      this.color = color
       this.message = message
     }
   },

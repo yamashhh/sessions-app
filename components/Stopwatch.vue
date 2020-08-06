@@ -3,30 +3,36 @@
     <v-toolbar color="primary" dark>
       <v-toolbar-title>New Session</v-toolbar-title>
       <v-spacer></v-spacer>
-      <ConfirmClose
+      <ConfirmCloseSession
         :timer-state="timerState"
         @closeDialog="closeDialog"
-      ></ConfirmClose>
+      ></ConfirmCloseSession>
     </v-toolbar>
     <v-card-text class="pt-5 display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
     </v-card-text>
     <v-card-actions>
       <v-select
-        v-model="selectedGenre"
-        :items="genres"
-        label="Genre"
-        hint="Please select a genre before you start your session."
-        :persistent-hint="selectedGenre === ''"
+        v-model="selectedCategory"
+        :items="categories"
+        item-text="name"
+        return-object
+        label="Category"
+        hint="Please select a category before you start your session."
+        :persistent-hint="!selectedCategory"
         outlined
-      ></v-select>
+      >
+        <v-icon slot="prepend" :color="categoryColor()"
+          >mdi-checkbox-blank</v-icon
+        >
+      </v-select>
     </v-card-actions>
     <v-card-actions>
       <v-btn
         block
         depressed
         :color="timerState !== 'started' ? 'primary' : 'warning'"
-        :disabled="selectedGenre === '' || saving"
+        :disabled="!selectedCategory || saving"
         @click="startOrStop"
         >{{ buttonText }}</v-btn
       >
@@ -36,7 +42,7 @@
         block
         depressed
         color="success"
-        :disabled="timerState !== 'stopped' || selectedGenre === ''"
+        :disabled="timerState !== 'stopped' || !selectedCategory"
         :loading="saving"
         @click="save"
         >Save</v-btn
@@ -58,15 +64,15 @@
 <script>
 import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
-import ConfirmClose from '@/components/ConfirmClose.vue'
+import ConfirmCloseSession from '@/components/ConfirmCloseSession.vue'
 
 export default {
   name: 'Stopwatch',
   components: {
-    ConfirmClose
+    ConfirmCloseSession
   },
   props: {
-    genres: {
+    categories: {
       type: Array,
       required: true
     },
@@ -79,7 +85,7 @@ export default {
     return {
       timerState: 'initial',
       buttonText: 'Start',
-      selectedGenre: '',
+      selectedCategory: null,
       initialTime: null,
       startTime: 0,
       elapsedTime: 0,
@@ -90,12 +96,16 @@ export default {
   },
   methods: {
     ...mapActions({
-      addSession: 'sessions/addSession'
+      addSession: 'sessions/addSession',
+      switchOverlay: 'overlay/switchOverlay'
     }),
     closeDialog() {
       console.log('closeDialog @stopwatch')
       this.reset()
       this.$emit('closeDialog')
+    },
+    categoryColor() {
+      return this.selectedCategory ? this.selectedCategory.color : '#757575'
     },
     startOrStop() {
       if (this.timerState !== 'started') {
@@ -120,11 +130,13 @@ export default {
       }, 10)
     },
     async save() {
+      // this.switchOverlay(true)
       try {
         this.saving = true
         const d = firestore.Timestamp.now()
         const session = {
-          name: this.selectedGenre,
+          name: this.selectedCategory.name,
+          color: this.selectedCategory.color,
           start: this.initialTime,
           end: d,
           totalTime: this.totalTime,
@@ -133,14 +145,19 @@ export default {
         await this.addSession({ uid: this.user.uid, session })
         this.saving = false
         this.closeDialog()
-        this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
+        this.$nuxt.$emit(
+          'updateSnackbar',
+          'primary',
+          'Session was saved successfully.'
+        )
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: new Date()
         })
       } catch (e) {
         this.saving = false
-        this.$nuxt.$emit('updateSnackbar', e.message)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
+        // this.switchOverlay(false)
       }
     },
     reset() {
@@ -150,7 +167,8 @@ export default {
     },
     clearData() {
       this.timerState = 'initial'
-      this.selectedGenre = ''
+      this.buttonText = 'Start'
+      this.selectedCategory = null
       this.initialTime = null
       this.startTime = 0
       this.elapsedTime = 0

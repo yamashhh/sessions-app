@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     user: {
@@ -60,19 +62,26 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      deleteSessionAction: 'sessions/deleteSession'
+    }),
     async deleteSession() {
       try {
         console.log('deleteSession')
         this.deleting = true
         console.log('before store/sessions/deleteSession')
-        await this.$store.dispatch('sessions/deleteSession', {
+        await this.deleteSessionAction({
           uid: this.user.uid,
           sessionId: this.selectedEvent.sessionId
         })
         this.deleting = false
         this.dialog = false
         this.$emit('switchSelectedOpen', false)
-        this.$nuxt.$emit('updateSnackbar', 'Session was deleted successfully.')
+        this.$nuxt.$emit(
+          'updateSnackbar',
+          'primary',
+          'Session was deleted successfully.'
+        )
         console.log('before emit fetchSessions')
         this.$emit('fetchSessions', {
           uid: this.user.uid,
@@ -80,7 +89,7 @@ export default {
         })
       } catch (e) {
         this.deleting = false
-        console.log('Error: ', e.message)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }
   }

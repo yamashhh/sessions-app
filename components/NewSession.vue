@@ -16,7 +16,7 @@
         </v-btn>
       </template>
       <Stopwatch
-        :genres="genres"
+        :categories="categories"
         :user="user"
         @fetchSessions="fetchSessions"
         @closeDialog="closeDialog"
@@ -34,7 +34,7 @@ export default {
     Stopwatch
   },
   props: {
-    genres: {
+    categories: {
       type: Array,
       required: true
     },

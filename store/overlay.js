@@ -9,13 +9,15 @@ export const getters = {
 }
 
 export const mutations = {
-  SWITCH_OVERLAY(state) {
-    state.overlay = !state.overlay
+  SWITCH_OVERLAY(state, bool) {
+    console.log(state.overlay)
+    console.log('changing to ', bool)
+    state.overlay = bool
   }
 }
 
 export const actions = {
-  switchOverlay({ commit }) {
-    return commit('SWITCH_OVERLAY')
+  switchOverlay({ commit }, bool) {
+    commit('SWITCH_OVERLAY', bool)
   }
 }
