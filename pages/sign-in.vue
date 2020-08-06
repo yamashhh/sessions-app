@@ -35,9 +35,18 @@ export default {
     if (user) {
       console.log('if user')
       const { uid, displayName, photoURL } = user
-      await this.setUser({ uid, displayName, photoURL })
-      this.$nuxt.$emit('updateSnackbar', `Signed in as ${displayName}.`)
-      this.$router.push('/dashboard')
+      try {
+        await this.setUser({ uid, displayName, photoURL })
+        this.$nuxt.$emit(
+          'updateSnackbar',
+          'primary',
+          `Signed in as ${displayName}.`
+        )
+        this.$router.push('/dashboard')
+      } catch (e) {
+        console.log(e.message)
+        this.switchOverlay(false)
+      }
     } else {
       console.log('else')
       this.switchOverlay(false)
@@ -52,7 +61,7 @@ export default {
       try {
         await auth.signInWithRedirect(googleAuth)
       } catch (e) {
-        this.$nuxt.$emit('updateSnackbar', e.message)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }
   },

@@ -3,10 +3,10 @@
     <v-toolbar color="primary" dark>
       <v-toolbar-title>New Session</v-toolbar-title>
       <v-spacer></v-spacer>
-      <ConfirmClose
+      <ConfirmCloseSession
         :timer-state="timerState"
         @closeDialog="closeDialog"
-      ></ConfirmClose>
+      ></ConfirmCloseSession>
     </v-toolbar>
     <v-card-text class="pt-5 display-2 text-center">
       {{ $moment.utc(totalTime).format('HH:mm:ss') }}
@@ -64,12 +64,12 @@
 <script>
 import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
-import ConfirmClose from '@/components/ConfirmClose.vue'
+import ConfirmCloseSession from '@/components/ConfirmCloseSession.vue'
 
 export default {
   name: 'Stopwatch',
   components: {
-    ConfirmClose
+    ConfirmCloseSession
   },
   props: {
     categories: {
@@ -130,7 +130,7 @@ export default {
       }, 10)
     },
     async save() {
-      this.switchOverlay(true)
+      // this.switchOverlay(true)
       try {
         this.saving = true
         const d = firestore.Timestamp.now()
@@ -145,16 +145,19 @@ export default {
         await this.addSession({ uid: this.user.uid, session })
         this.saving = false
         this.closeDialog()
-        this.$nuxt.$emit('updateSnackbar', 'Session was saved successfully.')
+        this.$nuxt.$emit(
+          'updateSnackbar',
+          'primary',
+          'Session was saved successfully.'
+        )
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: new Date()
         })
-        this.switchOverlay(false)
       } catch (e) {
         this.saving = false
-        this.$nuxt.$emit('updateSnackbar', e.message)
-        this.switchOverlay(false)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
+        // this.switchOverlay(false)
       }
     },
     reset() {

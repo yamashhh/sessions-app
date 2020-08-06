@@ -63,11 +63,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      deleteSessionAction: 'sessions/deleteSession',
-      switchOverlay: 'overlay/switchOverlay'
+      deleteSessionAction: 'sessions/deleteSession'
     }),
     async deleteSession() {
-      this.switchOverlay(true)
       try {
         console.log('deleteSession')
         this.deleting = true
@@ -79,17 +77,19 @@ export default {
         this.deleting = false
         this.dialog = false
         this.$emit('switchSelectedOpen', false)
-        this.$nuxt.$emit('updateSnackbar', 'Session was deleted successfully.')
+        this.$nuxt.$emit(
+          'updateSnackbar',
+          'primary',
+          'Session was deleted successfully.'
+        )
         console.log('before emit fetchSessions')
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: this.$moment(this.selectedEvent.start).toDate()
         })
-        this.switchOverlay(false)
       } catch (e) {
         this.deleting = false
-        console.log('Error: ', e.message)
-        this.switchOverlay(false)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }
   }

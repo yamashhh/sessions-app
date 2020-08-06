@@ -9,12 +9,12 @@
       <v-toolbar :color="selectedEvent.color" dark>
         <v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <ConfirmDelete
+        <ConfirmDeleteSession
           :user="user"
           :selected-event="selectedEvent"
           @switchSelectedOpen="switchSelectedOpen"
           @fetchSessions="fetchSessions"
-        ></ConfirmDelete>
+        ></ConfirmDeleteSession>
       </v-toolbar>
       <v-card-text class="display-2 text-center">
         {{ $moment.utc(selectedEvent.totalTime).format('HH:mm:ss') }}
@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import ConfirmDelete from '@/components/ConfirmDelete.vue'
+import ConfirmDeleteSession from '@/components/ConfirmDeleteSession.vue'
 
 export default {
   name: 'EventCard',
   components: {
-    ConfirmDelete
+    ConfirmDeleteSession
   },
   props: {
     user: {

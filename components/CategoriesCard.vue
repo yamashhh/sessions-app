@@ -4,22 +4,31 @@
       <v-card max-width="600" class="mx-auto">
         <v-card-title>Customize categories</v-card-title>
         <v-card-subtitle>{{ `${categories.length}/10` }}</v-card-subtitle>
-        <v-card-text>
-          <template v-for="(category, index) in categories">
-            <v-list-item :key="index">
-              <v-list-item-icon>
-                <v-icon :color="category.color">mdi-checkbox-blank</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>{{ category.name }}</v-list-item-title>
-              <v-list-item-icon>
-                <v-icon>mdi-cog</v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </template>
-        </v-card-text>
-        <CategoryEditor label="New Category"></CategoryEditor>
+        <template v-for="category in categories">
+          <CategoryEditor
+            :key="`${category.name}${category.color}`"
+            type="edit"
+            :user="user"
+            :categories="categories"
+            :categories-length="categoriesLength"
+            :original-name="category.name"
+            :original-color="category.color"
+            @fetchCategories="fetchCategories"
+          ></CategoryEditor>
+        </template>
+        <CategoryEditor
+          type="new"
+          label="New Category"
+          :user="user"
+          :categories="categories"
+          :categories-length="categoriesLength"
+          @fetchCategories="fetchCategories"
+        ></CategoryEditor>
         <v-card-actions>
-          <v-btn block>Reset categories</v-btn>
+          <ConfirmResetCategories
+            :user="user"
+            @fetchCategories="fetchCategories"
+          ></ConfirmResetCategories>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -28,15 +37,30 @@
 
 <script>
 import CategoryEditor from '@/components/CategoryEditor.vue'
+import ConfirmResetCategories from '@/components/ConfirmResetCategories.vue'
 
 export default {
   components: {
-    CategoryEditor
+    CategoryEditor,
+    ConfirmResetCategories
   },
   props: {
+    user: {
+      type: Object,
+      required: true
+    },
     categories: {
       type: Array,
       required: true
+    },
+    categoriesLength: {
+      type: Number,
+      required: true
+    }
+  },
+  methods: {
+    fetchCategories(uid) {
+      this.$emit('fetchCategories', uid)
     }
   }
 }

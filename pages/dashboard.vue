@@ -75,6 +75,7 @@ export default {
       })
     },
     async fetchSessions(obj) {
+      console.log('fetchSessions @dashboard')
       this.switchOverlay(true)
       try {
         await this.fetchSessionsAction(obj)

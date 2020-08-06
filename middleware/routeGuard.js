@@ -4,7 +4,7 @@ export default function({ route, store, redirect }) {
     (route.name === 'dashboard' || route.name === 'settings')
   ) {
     console.log('blocked')
-    store.dispatch('sessions/clearSessions')
+    store.dispatch('auth/clearUser')
     redirect('/')
   }
 }

@@ -2,7 +2,12 @@
   <v-container>
     <h1>Settings</h1>
     <UserCard :user="user"></UserCard>
-    <CategoriesCard :categories="categories"></CategoriesCard>
+    <CategoriesCard
+      :user="user"
+      :categories="categories"
+      :categories-length="categoriesLength"
+      @fetchCategories="fetchCategories"
+    ></CategoriesCard>
     <v-row>
       <v-col>
         <v-sheet max-width="600" class="mx-auto pa-2">
@@ -24,10 +29,8 @@ export default {
     CategoriesCard
   },
   async fetch() {
-    this.switchOverlay(true)
     try {
       await this.fetchCategories(this.user.uid)
-      this.switchOverlay(false)
     } catch (e) {
       console.log(e.message)
       this.switchOverlay(false)
@@ -41,14 +44,28 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/getUser',
-      categories: 'categories/getCategories'
+      categories: 'categories/getCategories',
+      categoriesLength: 'categories/getCategoriesLength'
     })
   },
   methods: {
     ...mapActions({
-      fetchCategories: 'categories/fetchCategories',
+      fetchCategoriesAction: 'categories/fetchCategories',
+      updateCategoriesLength: 'categories/updateCategoriesLength',
       switchOverlay: 'overlay/switchOverlay'
-    })
+    }),
+    async fetchCategories(uid) {
+      console.log('fetchCategories @settings')
+      this.switchOverlay(true)
+      try {
+        await this.fetchCategoriesAction(uid)
+        await this.updateCategoriesLength(this.user.uid)
+        this.switchOverlay(false)
+      } catch (e) {
+        console.log(e.message)
+        this.switchOverlay(false)
+      }
+    }
   }
 }
 </script>
