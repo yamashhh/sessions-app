@@ -11,7 +11,7 @@
     <v-row>
       <v-col>
         <v-sheet max-width="600" class="mx-auto pa-2">
-          <v-btn block color="error">Delete account</v-btn>
+          <v-btn block color="error" @click="deleteUser">Delete account</v-btn>
         </v-sheet>
       </v-col>
     </v-row>
@@ -28,14 +28,16 @@ export default {
     UserCard,
     CategoriesCard
   },
-  async fetch() {
-    try {
-      await this.fetchCategories(this.user.uid)
-    } catch (e) {
-      console.log(e.message)
-      this.switchOverlay(false)
-    }
-  },
+  // async fetch() {
+  //   try {
+  //     await this.fetchCategoriesAction(this.user.uid)
+  //     this.switchOverlay(false)
+  //   } catch (e) {
+  //     console.log(e.message)
+  //     this.switchOverlay(false)
+  //   }
+  // },
+  // fetchOnServer: false,
   data() {
     return {
       dialog: false
@@ -48,10 +50,19 @@ export default {
       categoriesLength: 'categories/getCategoriesLength'
     })
   },
+  async mounted() {
+    try {
+      await this.fetchCategoriesAction(this.user.uid)
+      this.switchOverlay(false)
+    } catch (e) {
+      console.log(e.message)
+      this.switchOverlay(false)
+    }
+  },
   methods: {
     ...mapActions({
       fetchCategoriesAction: 'categories/fetchCategories',
-      updateCategoriesLength: 'categories/updateCategoriesLength',
+      deleteUserAction: 'auth/deleteUser',
       switchOverlay: 'overlay/switchOverlay'
     }),
     async fetchCategories(uid) {
@@ -59,8 +70,20 @@ export default {
       this.switchOverlay(true)
       try {
         await this.fetchCategoriesAction(uid)
-        await this.updateCategoriesLength(this.user.uid)
         this.switchOverlay(false)
+      } catch (e) {
+        console.log(e.message)
+        this.switchOverlay(false)
+      }
+    },
+    async deleteUser() {
+      console.log('deleteUser @settings')
+      this.switchOverlay(true)
+      try {
+        this.$router.push('/')
+        await this.deleteUserAction(this.user.uid)
+        this.switchOverlay(false)
+        // this.$router.push('/')
       } catch (e) {
         console.log(e.message)
         this.switchOverlay(false)

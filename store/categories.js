@@ -4,7 +4,7 @@ export const state = () => ({
   categories: [],
   default: [
     { name: 'Focus', color: '#1976D2' },
-    { name: 'Rest', color: '#FFC107' }
+    { name: 'Rest', color: '#FB8C00' }
   ]
 })
 
@@ -114,7 +114,7 @@ export const actions = {
       throw new Error(e.message)
     }
   },
-  async fetchCategories({ commit }, uid) {
+  async fetchCategories({ commit, dispatch }, uid) {
     console.log('actions fetchCategories')
     try {
       const categories = []
@@ -131,6 +131,7 @@ export const actions = {
         })
       })
       commit('SET_CATEGORIES', categories)
+      await dispatch('updateCategoriesLength', uid)
     } catch (e) {
       console.log(e)
       throw new Error(

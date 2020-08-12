@@ -25,8 +25,33 @@ export default {
     Calendar,
     NewSession
   },
-  async fetch() {
-    this.switchOverlay(true)
+  // async fetch() {
+  //   // this.switchOverlay(true)
+  //   try {
+  //     await this.fetchSessionsAction({
+  //       uid: this.user.uid,
+  //       dateObj: new Date()
+  //     })
+  //     await this.fetchCategories(this.user.uid)
+  //     this.switchOverlay(false)
+  //   } catch (e) {
+  //     console.log(e)
+  //     this.switchOverlay(false)
+  //   }
+  // },
+  // fetchOnServer: false,
+  computed: {
+    ...mapGetters({
+      user: 'auth/getUser',
+      sessions: 'sessions/getSessions',
+      categories: 'categories/getCategories'
+    }),
+    formattedSessions() {
+      return this.formatSessions(this.sessions)
+    }
+  },
+  async mounted() {
+    // this.switchOverlay(true)
     try {
       await this.fetchSessionsAction({
         uid: this.user.uid,
@@ -37,16 +62,6 @@ export default {
     } catch (e) {
       console.log(e)
       this.switchOverlay(false)
-    }
-  },
-  computed: {
-    ...mapGetters({
-      user: 'auth/getUser',
-      sessions: 'sessions/getSessions',
-      categories: 'categories/getCategories'
-    }),
-    formattedSessions() {
-      return this.formatSessions(this.sessions)
     }
   },
   methods: {

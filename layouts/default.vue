@@ -24,6 +24,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Cookie from 'js-cookie'
 import { auth } from '@/plugins/firebase'
 import Navbar from '@/components/Navbar.vue'
 import NavDrawer from '@/components/NavDrawer.vue'
@@ -61,6 +62,7 @@ export default {
     async signOut() {
       try {
         await auth.signOut()
+        await Cookie.remove('access_token')
         await this.clearUser()
         this.setSnackbar('primary', 'Sign out complete.')
       } catch (e) {
