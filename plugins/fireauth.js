@@ -1,7 +1,6 @@
 import { auth } from '@/plugins/firebase'
 
-export default (context) => {
-  const { store } = context
+export default ({ store }) => {
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((user) => {
       console.log('onAuthStateChanged @plugins')

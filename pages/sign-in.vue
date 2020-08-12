@@ -16,6 +16,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Cookie from 'js-cookie'
 import { auth, googleAuth } from '@/plugins/firebase'
 
 export default {
@@ -36,6 +37,8 @@ export default {
       console.log('if user')
       const { uid, displayName, photoURL } = user
       try {
+        const token = await auth.currentUser.getIdToken()
+        await Cookie.set('access_token', token)
         await this.setUser({ uid, displayName, photoURL })
         this.$nuxt.$emit(
           'updateSnackbar',

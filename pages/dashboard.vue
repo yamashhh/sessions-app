@@ -39,6 +39,7 @@ export default {
       this.switchOverlay(false)
     }
   },
+  fetchOnServer: false,
   computed: {
     ...mapGetters({
       user: 'auth/getUser',

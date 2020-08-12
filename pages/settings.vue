@@ -36,6 +36,7 @@ export default {
       this.switchOverlay(false)
     }
   },
+  fetchOnServer: false,
   data() {
     return {
       dialog: false

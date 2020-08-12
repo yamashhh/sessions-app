@@ -57,7 +57,9 @@ export default {
     },
     selectedElement: {
       validator(obj) {
-        return obj instanceof HTMLElement || obj === null
+        if (process.client) {
+          return obj instanceof HTMLElement || obj === null
+        } else return obj === null
       },
       default: null,
       required: true
