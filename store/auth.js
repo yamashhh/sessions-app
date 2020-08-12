@@ -1,4 +1,4 @@
-import { db } from '@/plugins/firebase'
+import { auth, db } from '@/plugins/firebase'
 
 export const state = () => ({
   user: null
@@ -40,9 +40,6 @@ export const actions = {
           const payload = { uid: user.uid, categoryId, categoryData }
           await dispatch('categories/addCategory', payload, { root: true })
         }
-        await dispatch('categories/updateCategoriesLength', user.uid, {
-          root: true
-        })
       } catch (e) {
         console.log(e)
         throw new Error('An error occurred while creating a user.')
@@ -55,5 +52,19 @@ export const actions = {
     commit('CLEAR_USER')
     dispatch('sessions/clearSessions', null, { root: true })
     dispatch('categories/clearCategories', null, { root: true })
+  },
+  async deleteUser({ dispatch }, uid) {
+    console.log('ACTION deleteUser')
+    const user = auth.currentUser
+    if (user.uid === uid) {
+      try {
+        console.log('before user.delete')
+        await user.delete()
+        console.log('finished user.delete')
+        dispatch('clearUser')
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
   }
 }
