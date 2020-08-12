@@ -4,7 +4,7 @@ export const state = () => ({
   categories: [],
   default: [
     { name: 'Focus', color: '#1976D2' },
-    { name: 'Rest', color: '#FFC107' }
+    { name: 'Rest', color: '#FB8C00' }
   ]
 })
 

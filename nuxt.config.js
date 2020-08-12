@@ -23,7 +23,7 @@ export default {
    ** Vue Router settings
    */
   router: {
-    middleware: ['routeGuard', 'signInOverlay']
+    middleware: ['routeGuard', 'initOverlay']
   },
   /*
    ** Customize the progress-bar color

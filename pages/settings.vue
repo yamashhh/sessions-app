@@ -28,15 +28,16 @@ export default {
     UserCard,
     CategoriesCard
   },
-  async fetch() {
-    try {
-      await this.fetchCategories(this.user.uid)
-    } catch (e) {
-      console.log(e.message)
-      this.switchOverlay(false)
-    }
-  },
-  fetchOnServer: false,
+  // async fetch() {
+  //   try {
+  //     await this.fetchCategoriesAction(this.user.uid)
+  //     this.switchOverlay(false)
+  //   } catch (e) {
+  //     console.log(e.message)
+  //     this.switchOverlay(false)
+  //   }
+  // },
+  // fetchOnServer: false,
   data() {
     return {
       dialog: false
@@ -48,6 +49,15 @@ export default {
       categories: 'categories/getCategories',
       categoriesLength: 'categories/getCategoriesLength'
     })
+  },
+  async mounted() {
+    try {
+      await this.fetchCategoriesAction(this.user.uid)
+      this.switchOverlay(false)
+    } catch (e) {
+      console.log(e.message)
+      this.switchOverlay(false)
+    }
   },
   methods: {
     ...mapActions({
