@@ -33,7 +33,7 @@ export const actions = {
       console.log('finished adding session')
     } catch (e) {
       console.log(e)
-      throw new Error('An error occurred while adding session to the server.')
+      return Promise.reject(e)
     }
   },
   async deleteSession({}, { uid, sessionId }) {
@@ -48,9 +48,7 @@ export const actions = {
       console.log('finished deleting session')
     } catch (e) {
       console.log(e)
-      throw new Error(
-        'An error occurred while deleting session from the server.'
-      )
+      return Promise.reject(e)
     }
   },
   async fetchSessions({ commit }, { uid, dateObj }) {
@@ -106,9 +104,7 @@ export const actions = {
       commit('SET_SESSIONS', sessions)
     } catch (e) {
       console.log(e)
-      throw new Error(
-        'An error occurred while fetching sessions from the server.'
-      )
+      return Promise.reject(e)
     }
   },
   clearSessions({ commit }) {

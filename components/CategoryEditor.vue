@@ -206,6 +206,7 @@ export default {
         this.fetchCategories(this.user.uid)
       } catch (e) {
         this.saving = false
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     },
@@ -242,6 +243,7 @@ export default {
         this.fetchCategories(this.user.uid)
       } catch (e) {
         this.saving = false
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     },

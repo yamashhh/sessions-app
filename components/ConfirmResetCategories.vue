@@ -66,6 +66,7 @@ export default {
         this.$emit('fetchCategories', this.user.uid)
       } catch (e) {
         this.resetting = false
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

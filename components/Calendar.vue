@@ -109,7 +109,6 @@ export default {
       type: 'month',
       selectedEvent: {},
       selectedElement: null,
-      // selectedOpen: false,
       typeToIcon: {
         month: 'mdi-view-module',
         week: 'mdi-view-week',

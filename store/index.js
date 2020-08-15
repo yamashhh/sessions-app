@@ -12,8 +12,6 @@ export const actions = {
     if (!accessTokenCookie) return
 
     const decoded = JWTDecode(accessTokenCookie)
-    console.log('nuxtServerInit', decoded)
-
     if (decoded) {
       dispatch('auth/setUser', {
         uid: decoded.user_id,
