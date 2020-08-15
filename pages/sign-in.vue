@@ -2,14 +2,12 @@
   <v-container>
     <h1>Sign in</h1>
     <v-row align="center" justify="center" class="mt-4">
-      <v-spacer></v-spacer>
       <v-col class="text-center">
         <v-btn color="primary" @click="signIn">
           <v-icon left>mdi-google</v-icon>
           Sign in with Google</v-btn
         >
       </v-col>
-      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
@@ -38,7 +36,10 @@ export default {
       const { uid, displayName, photoURL } = user
       try {
         const token = await auth.currentUser.getIdToken()
-        await Cookie.set('access_token', token)
+        await Cookie.set('access_token', token, {
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        })
         await this.setUser({ uid, displayName, photoURL })
         this.$nuxt.$emit(
           'updateSnackbar',
@@ -47,8 +48,9 @@ export default {
         )
         this.$router.push('/dashboard')
       } catch (e) {
-        console.log(e.message)
+        console.log(e)
         this.switchOverlay(false)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     } else {
       console.log('else')
@@ -64,6 +66,7 @@ export default {
       try {
         await auth.signInWithRedirect(googleAuth)
       } catch (e) {
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

@@ -42,7 +42,7 @@ export const actions = {
       console.log('finished adding category: ', categoryId)
     } catch (e) {
       console.log(e)
-      throw new Error('An error occurred while adding category to the server.')
+      return Promise.reject(e)
     }
   },
   async updateCategory({}, { uid, categoryId, color }) {
@@ -57,7 +57,7 @@ export const actions = {
       console.log('finished updating category: ', categoryId)
     } catch (e) {
       console.log(e)
-      throw new Error(e.message)
+      return Promise.reject(e)
     }
   },
   async deleteCategory({}, { uid, categoryId }) {
@@ -72,7 +72,7 @@ export const actions = {
       console.log('finished deleting category')
     } catch (e) {
       console.log(e)
-      throw new Error(e.message)
+      return Promise.reject(e)
     }
   },
   async updateCategoriesLength({ getters }, uid) {
@@ -88,7 +88,7 @@ export const actions = {
       )
     } catch (e) {
       console.log(e)
-      throw new Error(e.message)
+      return Promise.reject(e)
     }
   },
   async resetCategories({ getters, dispatch }, uid) {
@@ -111,7 +111,7 @@ export const actions = {
       }
     } catch (e) {
       console.log(e)
-      throw new Error(e.message)
+      return Promise.reject(e)
     }
   },
   async fetchCategories({ commit, dispatch }, uid) {
@@ -134,9 +134,7 @@ export const actions = {
       await dispatch('updateCategoriesLength', uid)
     } catch (e) {
       console.log(e)
-      throw new Error(
-        'An error occurred while fetching categories from the server.'
-      )
+      return Promise.reject(e)
     }
   },
   clearCategories({ commit }) {

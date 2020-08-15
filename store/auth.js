@@ -29,10 +29,10 @@ export const actions = {
     console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)
     if (process.client) {
-      const doc = await docRef.get()
-      if (!doc.exists) {
-        const defaultCategories = rootGetters['categories/getDefault']
-        try {
+      try {
+        const doc = await docRef.get()
+        if (!doc.exists) {
+          const defaultCategories = rootGetters['categories/getDefault']
           await docRef.set({ uid: user.uid, categoriesLength: 0 })
           for (const elem of defaultCategories) {
             console.log('adding category: ', elem.name)
@@ -41,10 +41,10 @@ export const actions = {
             const payload = { uid: user.uid, categoryId, categoryData }
             await dispatch('categories/addCategory', payload, { root: true })
           }
-        } catch (e) {
-          console.log(e)
-          throw new Error('An error occurred while creating a user.')
         }
+      } catch (e) {
+        console.log(e)
+        return Promise.reject(e)
       }
     }
     commit('SET_USER', user)
@@ -55,7 +55,7 @@ export const actions = {
     dispatch('sessions/clearSessions', null, { root: true })
     dispatch('categories/clearCategories', null, { root: true })
   },
-  async deleteUser({ dispatch }, uid) {
+  async deleteAccount({ dispatch }, uid) {
     console.log('ACTION deleteUser')
     const user = auth.currentUser
     if (user.uid === uid) {
@@ -65,7 +65,8 @@ export const actions = {
         console.log('finished user.delete')
         dispatch('clearUser')
       } catch (e) {
-        console.log(e.message)
+        console.log(e)
+        return Promise.reject(e)
       }
     }
   }

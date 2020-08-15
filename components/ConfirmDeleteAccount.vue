@@ -1,14 +1,16 @@
 <template>
   <v-dialog v-model="dialog" persistent min-width="290" max-width="400">
     <template v-slot:activator="{ on, attrs }">
-      <v-icon v-bind="attrs" v-on="on">mdi-delete</v-icon>
+      <v-btn block color="error" v-bind="attrs" v-on="on">Delete account</v-btn>
     </template>
     <v-card>
       <v-toolbar color="error" dark>
-        <v-toolbar-title>Delete Category: {{ category }}</v-toolbar-title>
+        <v-toolbar-title
+          >Delete Account: {{ user.displayName }}</v-toolbar-title
+        >
       </v-toolbar>
       <v-card-text class="pt-5">
-        Any changes made to this category will not be saved.
+        All data related to this account will be permanently deleted.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -20,7 +22,7 @@
           depressed
           color="error"
           :loading="deleting"
-          @click="deleteCategory"
+          @click="deleteAccount"
           >Delete</v-btn
         >
         <v-spacer></v-spacer>
@@ -37,10 +39,6 @@ export default {
     user: {
       type: Object,
       required: true
-    },
-    category: {
-      type: String,
-      required: true
     }
   },
   data() {
@@ -51,30 +49,28 @@ export default {
   },
   methods: {
     ...mapActions({
-      deleteCategoryAction: 'categories/deleteCategory'
+      deleteAccountAction: 'auth/deleteAccount'
     }),
-    async deleteCategory() {
-      console.log('methods deleteCategory @ConfirmDeleteCategory')
+    async deleteAccount() {
+      console.log('methods deleteUser @ConfirmDeleteAccount')
       try {
         this.deleting = true
-        console.log('before store/categories/deleteCategory')
-        await this.deleteCategoryAction({
-          uid: this.user.uid,
-          categoryId: this.category
-        })
+        await this.deleteAccountAction(this.user.uid)
         this.deleting = false
         this.dialog = false
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Category was deleted successfully.'
-        )
-        console.log('before emit fetchCategories')
-        this.$emit('fetchCategories', this.user.uid)
+        this.$router.push('/')
       } catch (e) {
-        this.deleting = false
         console.log(e)
-        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
+        this.deleting = false
+        this.dialog = false
+        // this.$nuxt.$emit('updateSnackbar', 'error', e.message)
+        if (e.code === 'auth/requires-recent-login') {
+          // this.$router.push('/')
+          this.$nuxt.error(e)
+          this.$nuxt.$emit('signOut')
+        } else {
+          this.$nuxt.$emit('updateSnackbar', 'error', e.message)
+        }
       }
     }
   }

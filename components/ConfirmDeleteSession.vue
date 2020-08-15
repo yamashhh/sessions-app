@@ -89,6 +89,7 @@ export default {
         })
       } catch (e) {
         this.deleting = false
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

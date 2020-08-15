@@ -1,6 +1,9 @@
 export default function({ route, store }) {
-  console.log(route.name)
-  if (route.name !== 'index') {
+  if (
+    route.name === 'sign-in' ||
+    route.name === 'dashboard' ||
+    route.name === 'settings'
+  ) {
     store.dispatch('overlay/switchOverlay', true)
   }
 }

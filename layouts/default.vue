@@ -50,6 +50,7 @@ export default {
   },
   created() {
     this.snackbarListener()
+    this.signOutListener()
   },
   methods: {
     ...mapActions({
@@ -59,12 +60,16 @@ export default {
     switchDrawer() {
       this.$refs.navDrawer.switchDrawer()
     },
+    signOutListener() {
+      this.$nuxt.$on('signOut', this.signOut)
+    },
     async signOut() {
+      console.log('signOut @default.vue')
       try {
         await auth.signOut()
         await Cookie.remove('access_token')
         await this.clearUser()
-        this.setSnackbar('primary', 'Sign out complete.')
+        // this.setSnackbar('primary', 'Sign out complete.')
       } catch (e) {
         this.switchSnackbar('error', e.message)
       }

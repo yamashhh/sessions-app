@@ -130,7 +130,6 @@ export default {
       }, 10)
     },
     async save() {
-      // this.switchOverlay(true)
       try {
         this.saving = true
         const d = firestore.Timestamp.now()
@@ -156,8 +155,8 @@ export default {
         })
       } catch (e) {
         this.saving = false
+        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
-        // this.switchOverlay(false)
       }
     },
     reset() {

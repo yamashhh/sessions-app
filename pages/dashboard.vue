@@ -25,21 +25,6 @@ export default {
     Calendar,
     NewSession
   },
-  // async fetch() {
-  //   // this.switchOverlay(true)
-  //   try {
-  //     await this.fetchSessionsAction({
-  //       uid: this.user.uid,
-  //       dateObj: new Date()
-  //     })
-  //     await this.fetchCategories(this.user.uid)
-  //     this.switchOverlay(false)
-  //   } catch (e) {
-  //     console.log(e)
-  //     this.switchOverlay(false)
-  //   }
-  // },
-  // fetchOnServer: false,
   computed: {
     ...mapGetters({
       user: 'auth/getUser',
@@ -51,7 +36,6 @@ export default {
     }
   },
   async mounted() {
-    // this.switchOverlay(true)
     try {
       await this.fetchSessionsAction({
         uid: this.user.uid,
@@ -62,6 +46,7 @@ export default {
     } catch (e) {
       console.log(e)
       this.switchOverlay(false)
+      this.$nuxt.$emit('updateSnackbar', 'error', e.message)
     }
   },
   methods: {
@@ -96,8 +81,9 @@ export default {
         await this.fetchSessionsAction(obj)
         this.switchOverlay(false)
       } catch (e) {
-        console.log(e.message)
+        console.log(e)
         this.switchOverlay(false)
+        this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }
   },

@@ -11,7 +11,9 @@
     <v-row>
       <v-col>
         <v-sheet max-width="600" class="mx-auto pa-2">
-          <v-btn block color="error" @click="deleteUser">Delete account</v-btn>
+          <ConfirmDeleteAccount :user="user"
+            >Delete account</ConfirmDeleteAccount
+          >
         </v-sheet>
       </v-col>
     </v-row>
@@ -22,11 +24,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import UserCard from '@/components/UserCard.vue'
 import CategoriesCard from '@/components/CategoriesCard.vue'
+import ConfirmDeleteAccount from '@/components/ConfirmDeleteAccount.vue'
 
 export default {
   components: {
     UserCard,
-    CategoriesCard
+    CategoriesCard,
+    ConfirmDeleteAccount
   },
   // async fetch() {
   //   try {
@@ -62,7 +66,7 @@ export default {
   methods: {
     ...mapActions({
       fetchCategoriesAction: 'categories/fetchCategories',
-      deleteUserAction: 'auth/deleteUser',
+      // deleteUserAction: 'auth/deleteUser',
       switchOverlay: 'overlay/switchOverlay'
     }),
     async fetchCategories(uid) {
@@ -75,20 +79,19 @@ export default {
         console.log(e.message)
         this.switchOverlay(false)
       }
-    },
-    async deleteUser() {
-      console.log('deleteUser @settings')
-      this.switchOverlay(true)
-      try {
-        this.$router.push('/')
-        await this.deleteUserAction(this.user.uid)
-        this.switchOverlay(false)
-        // this.$router.push('/')
-      } catch (e) {
-        console.log(e.message)
-        this.switchOverlay(false)
-      }
     }
+    // async deleteUser() {
+    //   console.log('deleteUser @settings')
+    //   this.switchOverlay(true)
+    //   try {
+    //     this.$router.push('/')
+    //     await this.deleteUserAction(this.user.uid)
+    //     this.switchOverlay(false)
+    //   } catch (e) {
+    //     console.log(e.message)
+    //     this.switchOverlay(false)
+    //   }
+    // }
   }
 }
 </script>
