@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Stopwatch from '@/components/Stopwatch.vue'
+import Stopwatch from '@/components/dashboard/new-session/Stopwatch.vue'
 
 export default {
   name: 'NewSession',

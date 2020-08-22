@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import CategoryEditor from '@/components/CategoryEditor.vue'
-import ConfirmResetCategories from '@/components/ConfirmResetCategories.vue'
+import CategoryEditor from '@/components/settings/categories-card/CategoryEditor.vue'
+import ConfirmResetCategories from '@/components/settings/categories-card/ConfirmResetCategories.vue'
 
 export default {
   components: {

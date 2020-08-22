@@ -22,9 +22,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import UserCard from '@/components/UserCard.vue'
-import CategoriesCard from '@/components/CategoriesCard.vue'
-import ConfirmDeleteAccount from '@/components/ConfirmDeleteAccount.vue'
+import UserCard from '@/components/settings/UserCard.vue'
+import CategoriesCard from '@/components/settings/categories-card/CategoriesCard.vue'
+import ConfirmDeleteAccount from '@/components/settings/ConfirmDeleteAccount.vue'
 
 export default {
   components: {
