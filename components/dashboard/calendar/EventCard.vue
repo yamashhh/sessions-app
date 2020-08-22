@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import ConfirmDeleteSession from '@/components/ConfirmDeleteSession.vue'
+import ConfirmDeleteSession from '@/components/dashboard/calendar/ConfirmDeleteSession.vue'
 
 export default {
   name: 'EventCard',

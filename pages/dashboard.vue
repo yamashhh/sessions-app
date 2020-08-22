@@ -16,8 +16,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Calendar from '@/components/Calendar.vue'
-import NewSession from '@/components/NewSession.vue'
+import Calendar from '@/components/dashboard/calendar/Calendar.vue'
+import NewSession from '@/components/dashboard/new-session/NewSession.vue'
 
 export default {
   name: 'Dashboard',

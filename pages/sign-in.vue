@@ -2,11 +2,26 @@
   <v-container>
     <h1>Sign in</h1>
     <v-row align="center" justify="center" class="mt-4">
+      <v-col>
+        <v-img
+          v-ripple
+          alt="Sign in with Google"
+          :src="
+            require('@/static/pics/btn_google_signin_light_normal_web@2x.png')
+          "
+          class="mx-auto"
+          width="250"
+          contain
+          @click="signIn"
+        ></v-img>
+      </v-col>
+    </v-row>
+    <v-row align="center" justify="center">
       <v-col class="text-center">
-        <v-btn color="primary" @click="signIn">
-          <v-icon left>mdi-google</v-icon>
-          Sign in with Google</v-btn
-        >
+        <v-btn color="primary" to="/" nuxt>
+          <v-icon left>mdi-home</v-icon>
+          Return to home
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>

@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-app-bar {
+  background: linear-gradient(to right, #311b92, #673ab7);
+}
 .v-application a {
   color: #fff;
   text-decoration: none;

@@ -58,11 +58,12 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet height="65vh">
         <v-calendar
           ref="calendar"
           v-model="focus"
           color="primary"
+          locale="en"
           :events="sessions"
           :event-color="getEventColor"
           :type="type"
@@ -84,7 +85,7 @@
 </template>
 
 <script>
-import EventCard from '@/components/EventCard.vue'
+import EventCard from '@/components/dashboard/calendar/EventCard.vue'
 
 export default {
   name: 'Calendar',
@@ -127,16 +128,18 @@ export default {
       if (!start || !end) {
         return ''
       }
-      const startMonth = this.monthFormatter(start)
+      const startMonth = this.mobile
+        ? this.$moment(start.date).format('MMM')
+        : this.$moment(start.date).format('MMMM')
       const startYear = start.year
       return `${startMonth} ${startYear}`
     },
-    monthFormatter() {
-      return this.$refs.calendar.getFormatter({
-        timeZone: 'UTC',
-        month: 'long'
-      })
-    },
+    // monthFormatter() {
+    //   return this.$refs.calendar.getFormatter({
+    //     timeZone: 'UTC',
+    //     month: 'long'
+    //   })
+    // },
     mobile() {
       return this.$vuetify.breakpoint.xs
     }

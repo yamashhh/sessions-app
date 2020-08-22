@@ -64,7 +64,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { firestore } from '@/plugins/firebase'
-import ConfirmCloseSession from '@/components/ConfirmCloseSession.vue'
+import ConfirmCloseSession from '@/components/dashboard/new-session/ConfirmCloseSession.vue'
 
 export default {
   name: 'Stopwatch',
@@ -179,6 +179,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-toolbar {
+  background: linear-gradient(to right, #311b92, #673ab7);
+}
 .v-card__actions {
   padding: 8px 24px;
 }

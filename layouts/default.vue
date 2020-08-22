@@ -26,8 +26,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import Cookie from 'js-cookie'
 import { auth } from '@/plugins/firebase'
-import Navbar from '@/components/Navbar.vue'
-import NavDrawer from '@/components/NavDrawer.vue'
+import Navbar from '@/components/nav/Navbar.vue'
+import NavDrawer from '@/components/nav/NavDrawer.vue'
 
 export default {
   components: {

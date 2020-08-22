@@ -37,9 +37,9 @@
     </v-list>
     <template v-slot:append>
       <div class="pa-4">
-        <v-btn block color="primary" @click="signOut"
-          ><v-icon left>mdi-logout</v-icon>Sign out</v-btn
-        >
+        <v-btn block color="primary" @click="signOut">
+          <v-icon left>mdi-logout</v-icon>Sign out
+        </v-btn>
       </div>
     </template>
   </v-navigation-drawer>

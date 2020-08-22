@@ -8,8 +8,6 @@ export default ({ store, route, isDev }) => {
       console.log('onAuthStateChanged @plugins')
       if (user) {
         console.log('USER FOUND')
-        const result = auth.getRedirectResult()
-        console.log(result.credential)
         // Make a new object from extracting properties
         // from the original "user" object
         const { uid, displayName, photoURL } = user
