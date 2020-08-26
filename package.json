@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/vuetify": "^1.11.2",
     "cookieparser": "^0.1.0",
     "firebase": "^7.15.1",
     "firebaseui": "^4.5.1",
@@ -20,20 +21,19 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.26.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "nuxt-svg-loader": "^1.2.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@nuxtjs/moment": "^1.6.1",
-    "@nuxtjs/vuetify": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.1.2",
-    "nuxt-svg-loader": "^1.2.0",
     "prettier": "^1.19.1"
   }
 }
