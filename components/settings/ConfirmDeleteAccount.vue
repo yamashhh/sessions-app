@@ -5,26 +5,27 @@
     </template>
     <v-card>
       <v-toolbar color="error" dark>
-        <v-toolbar-title
-          >Delete Account: {{ user.displayName }}</v-toolbar-title
-        >
+        <v-toolbar-title>
+          Delete Account: {{ user.displayName }}
+        </v-toolbar-title>
       </v-toolbar>
       <v-card-text class="pt-5">
         All data related to this account will be permanently deleted.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn depressed :disabled="deleting" @click="dialog = false"
-          >Cancel</v-btn
-        >
+        <v-btn depressed :disabled="deleting" @click="dialog = false">
+          Cancel
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           depressed
           color="error"
           :loading="deleting"
           @click="deleteAccount"
-          >Delete</v-btn
         >
+          Delete
+        </v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -53,7 +54,6 @@ export default {
       deleteAccountAction: 'auth/deleteAccount'
     }),
     async deleteAccount() {
-      console.log('methods deleteUser @ConfirmDeleteAccount')
       try {
         this.deleting = true
         await this.deleteAccountAction(this.user.uid)
@@ -61,12 +61,9 @@ export default {
         this.dialog = false
         this.$router.push('/')
       } catch (e) {
-        console.log(e)
         this.deleting = false
         this.dialog = false
-        // this.$nuxt.$emit('updateSnackbar', 'error', e.message)
         if (e.code === 'auth/requires-recent-login') {
-          // this.$router.push('/')
           this.$nuxt.error(e)
           this.$nuxt.$emit('signOut')
         } else {

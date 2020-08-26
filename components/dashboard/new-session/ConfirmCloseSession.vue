@@ -40,12 +40,10 @@ export default {
   methods: {
     initialClose() {
       if (this.timerState === 'initial') {
-        console.log('methods initialClose @confirmclosedialog')
         this.closeDialog()
       }
     },
     closeDialog() {
-      console.log('methods closeDialog @confirmclosedialog')
       this.dialog = false
       this.$emit('closeDialog')
     }

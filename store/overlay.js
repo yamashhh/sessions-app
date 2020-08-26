@@ -10,8 +10,6 @@ export const getters = {
 
 export const mutations = {
   SWITCH_OVERLAY(state, bool) {
-    console.log(state.overlay)
-    console.log('changing to ', bool)
     state.overlay = bool
   }
 }

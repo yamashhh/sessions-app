@@ -11,9 +11,9 @@
             ></v-img>
             <v-icon v-else>mdi-account</v-icon>
           </v-list-item-avatar>
-          <v-list-item-title class="title">{{
-            user.displayName
-          }}</v-list-item-title>
+          <v-list-item-title class="title">
+            {{ user.displayName }}
+          </v-list-item-title>
         </v-list-item>
       </v-card>
     </v-col>

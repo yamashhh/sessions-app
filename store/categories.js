@@ -22,11 +22,9 @@ export const getters = {
 
 export const mutations = {
   SET_CATEGORIES(state, categories) {
-    console.log('mutation SET_CATEGORIES')
     state.categories = categories
   },
   CLEAR_CATEGORIES(state) {
-    console.log('mutation CLEAR_CATEGORIES')
     state.categories = []
   }
 }
@@ -39,14 +37,11 @@ export const actions = {
       .collection('categories')
     try {
       await categoriesRef.doc(categoryId).set(categoryData)
-      console.log('finished adding category: ', categoryId)
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async updateCategory({}, { uid, categoryId, color }) {
-    console.log('updateCategory @store/categories')
     const categoryRef = db
       .collection('users')
       .doc(uid)
@@ -54,14 +49,11 @@ export const actions = {
       .doc(categoryId)
     try {
       await categoryRef.update({ color })
-      console.log('finished updating category: ', categoryId)
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async deleteCategory({}, { uid, categoryId }) {
-    console.log('deleting category: ', categoryId)
     const categoryRef = db
       .collection('users')
       .doc(uid)
@@ -69,30 +61,21 @@ export const actions = {
       .doc(categoryId)
     try {
       await categoryRef.delete()
-      console.log('finished deleting category')
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async updateCategoriesLength({ getters }, uid) {
-    console.log('actions updateCategoriesLength')
     const userRef = db.collection('users').doc(uid)
     try {
       await userRef.update({
         categoriesLength: getters.getCategoriesLength
       })
-      console.log(
-        'finished updating category length: ',
-        getters.getCategoriesLength
-      )
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async resetCategories({ getters, dispatch }, uid) {
-    console.log('actions resetCategories')
     const currentCategories = getters.getCategories
     const defaultCategories = getters.getDefault
     try {
@@ -102,7 +85,6 @@ export const actions = {
         }
       }
       for (const category of defaultCategories) {
-        console.log(category.name, category.color)
         await dispatch('addCategory', {
           uid,
           categoryId: category.name,
@@ -110,12 +92,10 @@ export const actions = {
         })
       }
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async fetchCategories({ commit, dispatch }, uid) {
-    console.log('actions fetchCategories')
     try {
       const categories = []
       const categoriesRef = db
@@ -133,12 +113,10 @@ export const actions = {
       commit('SET_CATEGORIES', categories)
       await dispatch('updateCategoriesLength', uid)
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   clearCategories({ commit }) {
-    console.log('action clearCategories')
     commit('CLEAR_CATEGORIES')
   }
 }

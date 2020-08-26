@@ -19,11 +19,6 @@
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
-    <!-- <v-footer>
-      <small class="mx-auto caption font-weight-light">
-        &copy; 2020 Shogo Yamato
-      </small>
-    </v-footer> -->
     <Footer></Footer>
   </v-app>
 </template>
@@ -72,12 +67,10 @@ export default {
       this.$nuxt.$on('signOut', this.signOut)
     },
     async signOut() {
-      console.log('signOut @default.vue')
       try {
         await auth.signOut()
         await Cookie.remove('access_token')
         await this.clearUser()
-        // this.setSnackbar('primary', 'Sign out complete.')
       } catch (e) {
         this.switchSnackbar('error', e.message)
       }
@@ -86,7 +79,6 @@ export default {
       this.$nuxt.$on('updateSnackbar', this.setSnackbar)
     },
     setSnackbar(color, message) {
-      console.log('setSnackbar @default.vue')
       this.snackbar = true
       this.color = color
       this.message = message
@@ -98,7 +90,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'An attempt to make my own Nuxt.js app.'
+        content: 'A simple activity recording tool.'
       }
     ]
   }

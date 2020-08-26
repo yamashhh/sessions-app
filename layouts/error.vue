@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-app dark> -->
   <v-container>
     <v-sheet max-width="600" class="mx-auto">
       <v-row align="center" justify="center">
@@ -33,7 +32,7 @@
           <p class="text-center my-auto">
             {{
               error.statusCode === 404
-                ? pageNotFound
+                ? `${pageNotFound}.`
                 : error.code === 'auth/requires-recent-login'
                 ? 'This operation is sensitive and requires recent authentication.'
                 : error.message
@@ -51,12 +50,10 @@
       </v-row>
     </v-sheet>
   </v-container>
-  <!-- </v-app> -->
 </template>
 
 <script>
 export default {
-  layout: 'empty',
   props: {
     error: {
       type: Object,
@@ -84,8 +81,4 @@ export default {
 }
 </script>
 
-<style scoped>
-/* h1 {
-  font-size: 20px;
-} */
-</style>
+<style scoped></style>

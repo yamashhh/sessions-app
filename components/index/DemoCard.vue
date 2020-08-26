@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-card-title class="headline font-weight-medium">{{
-      content.title
-    }}</v-card-title>
+    <v-card-title class="headline font-weight-medium">
+      {{ content.title }}
+    </v-card-title>
     <v-carousel
       v-if="Array.isArray(content.picture.src)"
       height="400"

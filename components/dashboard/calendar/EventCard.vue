@@ -75,7 +75,6 @@ export default {
       this.selectedOpen = bool
     },
     fetchSessions(obj) {
-      console.log('fetchSessions @EventCard')
       this.$emit('fetchSessions', obj)
     }
   }

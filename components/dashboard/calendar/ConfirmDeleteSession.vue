@@ -7,9 +7,9 @@
     </template>
     <v-card>
       <v-toolbar color="error" dark>
-        <v-toolbar-title
-          >Delete Session: {{ selectedEvent.name }}</v-toolbar-title
-        >
+        <v-toolbar-title>
+          Delete Session: {{ selectedEvent.name }}
+        </v-toolbar-title>
       </v-toolbar>
       <v-card-text class="pt-5 display-2 text-center">
         {{ $moment.utc(selectedEvent.totalTime).format('HH:mm:ss') }}
@@ -24,17 +24,18 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn depressed :disabled="deleting" @click="dialog = false"
-          >Cancel</v-btn
-        >
+        <v-btn depressed :disabled="deleting" @click="dialog = false">
+          Cancel
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           depressed
           :loading="deleting"
           color="error"
           @click="deleteSession"
-          >Delete</v-btn
         >
+          Delete
+        </v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -68,9 +69,7 @@ export default {
     }),
     async deleteSession() {
       try {
-        console.log('deleteSession')
         this.deleting = true
-        console.log('before store/sessions/deleteSession')
         await this.deleteSessionAction({
           uid: this.user.uid,
           sessionId: this.selectedEvent.sessionId
@@ -78,19 +77,13 @@ export default {
         this.deleting = false
         this.dialog = false
         this.$emit('switchSelectedOpen', false)
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Session was deleted successfully.'
-        )
-        console.log('before emit fetchSessions')
+        this.$nuxt.$emit('updateSnackbar', 'primary', 'Session is deleted.')
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: this.$moment(this.selectedEvent.start).toDate()
         })
       } catch (e) {
         this.deleting = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

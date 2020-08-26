@@ -1,3 +1,7 @@
+// Method from YouTube tutorial "Manage users in your Nuxt SSR app with Firebase 🔥" by Kaizen Codes
+// https://youtu.be/_-_bz5lH_fI
+// https://github.com/Eckhardt-D/nuxt-fire-auth/blob/master/store/index.js
+
 import JWTDecode from 'jwt-decode'
 import cookieparser from 'cookieparser'
 

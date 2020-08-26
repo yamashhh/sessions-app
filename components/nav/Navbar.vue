@@ -11,6 +11,7 @@
     <v-btn v-else nuxt text to="/sign-in">Sign in</v-btn>
   </v-app-bar>
 </template>
+
 <script>
 export default {
   name: 'Navbar',

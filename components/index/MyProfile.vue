@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col :cols="mobile ? 12 : 6">
         <v-avatar size="64">
-          <v-img :src="require('@/static/pics/my_pic.png')"> </v-img>
+          <v-img :src="require('@/static/pics/my_pic.png')"></v-img>
         </v-avatar>
       </v-col>
       <v-col :cols="mobile ? 12 : 6">
@@ -16,8 +16,7 @@
             height="40"
             contain
             :src="require('@/static/pics/GitHub_Logo.png')"
-          >
-          </v-img>
+          ></v-img>
         </a>
       </v-col>
     </v-row>

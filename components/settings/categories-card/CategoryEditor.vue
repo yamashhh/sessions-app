@@ -15,9 +15,9 @@
               @focus="resetValidation"
               @blur="resetValidation"
             >
-              <v-icon slot="prepend" :color="color" :disabled="disabled"
-                >mdi-checkbox-blank</v-icon
-              >
+              <v-icon slot="prepend" :color="color" :disabled="disabled">
+                mdi-checkbox-blank
+              </v-icon>
               <v-menu
                 slot="prepend-inner"
                 v-model="menu"
@@ -30,8 +30,9 @@
                     :disabled="disabled"
                     :color="color"
                     v-on="on"
-                    >mdi-palette</v-icon
                   >
+                    mdi-palette
+                  </v-icon>
                 </template>
                 <v-color-picker
                   v-model="color"
@@ -178,18 +179,14 @@ export default {
     },
     async save() {
       if (!this.validate()) {
-        console.log('save...if validate fails')
         return false
       } else if (this.type === 'new') {
-        console.log('this.type === new')
         await this.newSave()
       } else if (this.type === 'edit') {
-        console.log('this.type === edit')
         await this.editSave()
       }
     },
     async newSave() {
-      console.log('newSave')
       try {
         this.saving = true
         await this.addCategory({
@@ -199,36 +196,27 @@ export default {
         })
         this.saving = false
         this.clearData()
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Category was saved successfully.'
-        )
+        this.$nuxt.$emit('updateSnackbar', 'primary', 'Category is saved.')
         this.fetchCategories(this.user.uid)
       } catch (e) {
         this.saving = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     },
     async editSave() {
-      console.log('editSave')
       try {
         this.saving = true
         if (this.name === this.originalName) {
-          console.log("name didn't change")
           await this.updateCategory({
             uid: this.user.uid,
             categoryId: this.name,
             color: this.color
           })
         } else {
-          console.log('name changed, deleting old category and adding new one')
           await this.deleteCategory({
             uid: this.user.uid,
             categoryId: this.originalName
           })
-          console.log(this.color)
           await this.addCategory({
             uid: this.user.uid,
             categoryId: this.name,
@@ -236,15 +224,10 @@ export default {
           })
         }
         this.saving = false
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Category was updated successfully.'
-        )
+        this.$nuxt.$emit('updateSnackbar', 'primary', 'Category is updated.')
         this.fetchCategories(this.user.uid)
       } catch (e) {
         this.saving = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     },

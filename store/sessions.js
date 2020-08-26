@@ -12,12 +12,9 @@ export const getters = {
 
 export const mutations = {
   SET_SESSIONS(state, sessions) {
-    console.log('commit SET_SESSIONS')
     state.sessions = sessions
-    console.log('finished commit SET_SESSIONS')
   },
   CLEAR_SESSIONS(state) {
-    console.log('mutation CLEAR_SESSIONS')
     state.sessions = []
   }
 }
@@ -30,14 +27,11 @@ export const actions = {
       .collection('sessions')
     try {
       await sessions.add(session)
-      console.log('finished adding session')
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async deleteSession({}, { uid, sessionId }) {
-    console.log('deleteSession @store/sessions')
     const session = db
       .collection('users')
       .doc(uid)
@@ -45,14 +39,11 @@ export const actions = {
       .doc(sessionId)
     try {
       await session.delete()
-      console.log('finished deleting session')
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   async fetchSessions({ commit }, { uid, dateObj }) {
-    console.log('action sessions/fetchSessions')
     const year = dateObj.getFullYear()
     const month = dateObj.getMonth()
     let pastYear = null
@@ -100,15 +91,12 @@ export const actions = {
           uid: doc.data().uid
         })
       })
-      console.log('fetchSessions completed')
       commit('SET_SESSIONS', sessions)
     } catch (e) {
-      console.log(e)
       return Promise.reject(e)
     }
   },
   clearSessions({ commit }) {
-    console.log('action clearSessions')
     commit('CLEAR_SESSIONS')
   }
 }

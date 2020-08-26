@@ -3,7 +3,6 @@ export default function({ route, store, redirect }) {
     !store.getters['auth/signedIn'] &&
     (route.name === 'dashboard' || route.name === 'settings')
   ) {
-    console.log('blocked')
     store.dispatch('auth/clearUser')
     redirect('/')
   }

@@ -5,10 +5,8 @@ export default ({ store, route, isDev }) => {
   if (route.name === 'sign-in') return
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((user) => {
-      console.log('onAuthStateChanged @plugins')
       if (user) {
-        console.log('USER FOUND')
-        // Make a new object from extracting properties
+        // Make a new object by extracting properties
         // from the original "user" object
         const { uid, displayName, photoURL } = user
         // Set cookie

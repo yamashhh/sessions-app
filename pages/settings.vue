@@ -11,9 +11,9 @@
     <v-row>
       <v-col>
         <v-sheet max-width="600" class="mx-auto pa-2">
-          <ConfirmDeleteAccount :user="user"
-            >Delete account</ConfirmDeleteAccount
-          >
+          <ConfirmDeleteAccount :user="user">
+            Delete account
+          </ConfirmDeleteAccount>
         </v-sheet>
       </v-col>
     </v-row>
@@ -50,7 +50,6 @@ export default {
       await this.fetchCategoriesAction(this.user.uid)
       this.switchOverlay(false)
     } catch (e) {
-      console.log(e.message)
       this.switchOverlay(false)
     }
   },
@@ -60,13 +59,11 @@ export default {
       switchOverlay: 'overlay/switchOverlay'
     }),
     async fetchCategories(uid) {
-      console.log('fetchCategories @settings')
       this.switchOverlay(true)
       try {
         await this.fetchCategoriesAction(uid)
         this.switchOverlay(false)
       } catch (e) {
-        console.log(e.message)
         this.switchOverlay(false)
       }
     }

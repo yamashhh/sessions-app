@@ -12,17 +12,18 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn depressed :disabled="deleting" @click="dialog = false"
-          >Cancel</v-btn
-        >
+        <v-btn depressed :disabled="deleting" @click="dialog = false">
+          Cancel
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           depressed
           color="error"
           :loading="deleting"
           @click="deleteCategory"
-          >Delete</v-btn
         >
+          Delete
+        </v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -55,26 +56,18 @@ export default {
       deleteCategoryAction: 'categories/deleteCategory'
     }),
     async deleteCategory() {
-      console.log('methods deleteCategory @ConfirmDeleteCategory')
       try {
         this.deleting = true
-        console.log('before store/categories/deleteCategory')
         await this.deleteCategoryAction({
           uid: this.user.uid,
           categoryId: this.category
         })
         this.deleting = false
         this.dialog = false
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Category was deleted successfully.'
-        )
-        console.log('before emit fetchCategories')
+        this.$nuxt.$emit('updateSnackbar', 'primary', 'Category is deleted.')
         this.$emit('fetchCategories', this.user.uid)
       } catch (e) {
         this.deleting = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

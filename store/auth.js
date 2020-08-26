@@ -15,18 +15,15 @@ export const getters = {
 
 export const mutations = {
   SET_USER(state, user) {
-    console.log('mutation SET_USER')
     state.user = user
   },
   CLEAR_USER(state) {
-    console.log('mutation CLEAR_USER')
     state.user = null
   }
 }
 
 export const actions = {
   async setUser({ commit, dispatch, rootGetters }, user) {
-    console.log('ACTION setUser')
     const docRef = db.collection('users').doc(user.uid)
     if (process.client) {
       try {
@@ -35,7 +32,6 @@ export const actions = {
           const defaultCategories = rootGetters['categories/getDefault']
           await docRef.set({ uid: user.uid, categoriesLength: 0 })
           for (const elem of defaultCategories) {
-            console.log('adding category: ', elem.name)
             const categoryId = elem.name
             const categoryData = { color: elem.color, uid: user.uid }
             const payload = { uid: user.uid, categoryId, categoryData }
@@ -43,29 +39,23 @@ export const actions = {
           }
         }
       } catch (e) {
-        console.log(e)
         return Promise.reject(e)
       }
     }
     commit('SET_USER', user)
   },
   clearUser({ commit, dispatch }) {
-    console.log('ACTION clearUser')
     commit('CLEAR_USER')
     dispatch('sessions/clearSessions', null, { root: true })
     dispatch('categories/clearCategories', null, { root: true })
   },
   async deleteAccount({ dispatch }, uid) {
-    console.log('ACTION deleteUser')
     const user = auth.currentUser
     if (user.uid === uid) {
       try {
-        console.log('before user.delete')
         await user.delete()
-        console.log('finished user.delete')
         dispatch('clearUser')
       } catch (e) {
-        console.log(e)
         return Promise.reject(e)
       }
     }

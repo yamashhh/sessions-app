@@ -44,7 +44,6 @@ export default {
       await this.fetchCategories(this.user.uid)
       this.switchOverlay(false)
     } catch (e) {
-      console.log(e)
       this.switchOverlay(false)
       this.$nuxt.$emit('updateSnackbar', 'error', e.message)
     }
@@ -75,13 +74,11 @@ export default {
       })
     },
     async fetchSessions(obj) {
-      console.log('fetchSessions @dashboard')
       this.switchOverlay(true)
       try {
         await this.fetchSessionsAction(obj)
         this.switchOverlay(false)
       } catch (e) {
-        console.log(e)
         this.switchOverlay(false)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }

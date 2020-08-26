@@ -14,17 +14,18 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn depressed :disabled="resetting" @click="dialog = false"
-          >Cancel</v-btn
-        >
+        <v-btn depressed :disabled="resetting" @click="dialog = false">
+          Cancel
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           depressed
           color="error"
           :loading="resetting"
           @click="resetCategories"
-          >Reset</v-btn
         >
+          Reset
+        </v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -53,7 +54,6 @@ export default {
       resetCategoriesAction: 'categories/resetCategories'
     }),
     async resetCategories() {
-      console.log('resetCategories @ConfirmResetCategories')
       try {
         this.resetting = true
         await this.resetCategoriesAction(this.user.uid)
@@ -62,12 +62,11 @@ export default {
         this.$nuxt.$emit(
           'updateSnackbar',
           'primary',
-          'Categories were reset to default.'
+          'Categories are reset to default.'
         )
         this.$emit('fetchCategories', this.user.uid)
       } catch (e) {
         this.resetting = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }

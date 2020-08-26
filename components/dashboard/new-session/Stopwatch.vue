@@ -22,9 +22,9 @@
         :persistent-hint="!selectedCategory"
         outlined
       >
-        <v-icon slot="prepend" :color="categoryColor()"
-          >mdi-checkbox-blank</v-icon
-        >
+        <v-icon slot="prepend" :color="categoryColor()">
+          mdi-checkbox-blank
+        </v-icon>
       </v-select>
     </v-card-actions>
     <v-card-actions>
@@ -34,8 +34,9 @@
         :color="timerState !== 'started' ? 'primary' : 'warning'"
         :disabled="!selectedCategory || saving"
         @click="startOrStop"
-        >{{ buttonText }}</v-btn
       >
+        {{ buttonText }}
+      </v-btn>
     </v-card-actions>
     <v-card-actions>
       <v-btn
@@ -45,8 +46,9 @@
         :disabled="timerState !== 'stopped' || !selectedCategory"
         :loading="saving"
         @click="save"
-        >Save</v-btn
       >
+        Save
+      </v-btn>
     </v-card-actions>
     <v-card-actions>
       <v-btn
@@ -55,8 +57,9 @@
         color="error"
         :disabled="timerState !== 'stopped' || saving"
         @click="reset"
-        >Reset</v-btn
       >
+        Reset
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -100,7 +103,6 @@ export default {
       switchOverlay: 'overlay/switchOverlay'
     }),
     closeDialog() {
-      console.log('closeDialog @stopwatch')
       this.reset()
       this.$emit('closeDialog')
     },
@@ -144,23 +146,17 @@ export default {
         await this.addSession({ uid: this.user.uid, session })
         this.saving = false
         this.closeDialog()
-        this.$nuxt.$emit(
-          'updateSnackbar',
-          'primary',
-          'Session was saved successfully.'
-        )
+        this.$nuxt.$emit('updateSnackbar', 'primary', 'Session is saved.')
         this.$emit('fetchSessions', {
           uid: this.user.uid,
           dateObj: new Date()
         })
       } catch (e) {
         this.saving = false
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     },
     reset() {
-      console.log('reset @stopwatch')
       clearTimeout(this.timeoutId)
       this.clearData()
     },

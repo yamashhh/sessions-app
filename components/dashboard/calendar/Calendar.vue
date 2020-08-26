@@ -10,8 +10,8 @@
             :small="mobile"
             @click="setToday"
           >
-            <v-icon :left="!mobile">mdi-calendar-today</v-icon
-            ><span v-show="!mobile">Today</span>
+            <v-icon :left="!mobile">mdi-calendar-today</v-icon>
+            <span v-show="!mobile">Today</span>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn fab text small color="grey darken-2" @click="prev">
@@ -40,19 +40,19 @@
             </template>
             <v-list>
               <v-list-item @click="type = 'month'">
-                <v-list-item-title
-                  ><v-icon left>mdi-view-module</v-icon>Month</v-list-item-title
-                >
+                <v-list-item-title>
+                  <v-icon left>mdi-view-module</v-icon>Month
+                </v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'week'">
-                <v-list-item-title
-                  ><v-icon left>mdi-view-week</v-icon>Week</v-list-item-title
-                >
+                <v-list-item-title>
+                  <v-icon left>mdi-view-week</v-icon>Week
+                </v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'day'">
-                <v-list-item-title
-                  ><v-icon left>mdi-view-day</v-icon>Day</v-list-item-title
-                >
+                <v-list-item-title>
+                  <v-icon left>mdi-view-day</v-icon>Day
+                </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -134,12 +134,6 @@ export default {
       const startYear = start.year
       return `${startMonth} ${startYear}`
     },
-    // monthFormatter() {
-    //   return this.$refs.calendar.getFormatter({
-    //     timeZone: 'UTC',
-    //     month: 'long'
-    //   })
-    // },
     mobile() {
       return this.$vuetify.breakpoint.xs
     }
@@ -201,7 +195,6 @@ export default {
       this.end = end
     },
     fetchSessions(obj) {
-      console.log('fetchSession @Calendar')
       this.$emit('fetchSessions', obj)
     }
   }

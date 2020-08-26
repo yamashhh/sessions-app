@@ -40,15 +40,12 @@ export default {
     })
   },
   async mounted() {
-    console.log('mounted')
     const user = await new Promise((resolve, reject) => {
       auth.onAuthStateChanged((user) => {
-        console.log('onAuthStateChanged @sign-in')
         resolve(user)
       })
     })
     if (user) {
-      console.log('if user')
       const { uid, displayName, photoURL } = user
       try {
         const token = await auth.currentUser.getIdToken()
@@ -64,12 +61,10 @@ export default {
         )
         this.$router.push('/dashboard')
       } catch (e) {
-        console.log(e)
         this.switchOverlay(false)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     } else {
-      console.log('else')
       this.switchOverlay(false)
     }
   },
@@ -82,7 +77,6 @@ export default {
       try {
         await auth.signInWithRedirect(googleAuth)
       } catch (e) {
-        console.log(e)
         this.$nuxt.$emit('updateSnackbar', 'error', e.message)
       }
     }
