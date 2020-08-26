@@ -3,7 +3,7 @@
     <v-list-item>
       <v-row>
         <v-col>
-          <v-form ref="form" lazy-validation>
+          <v-form ref="form" lazy-validation @submit.prevent>
             <v-text-field
               v-model="name"
               :label="label"
