@@ -35,6 +35,7 @@
 import { mapActions } from 'vuex'
 
 export default {
+  name: 'ConfirmResetCategories',
   props: {
     user: {
       type: Object,

@@ -33,6 +33,7 @@ import Cookie from 'js-cookie'
 import { auth, googleAuth } from '@/plugins/firebase'
 
 export default {
+  name: 'SignIn',
   computed: {
     ...mapGetters({
       user: 'auth/getUser'

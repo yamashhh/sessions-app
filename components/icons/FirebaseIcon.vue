@@ -6,6 +6,7 @@
 import FirebaseSvg from '@/static/svg/Firebase_Logo_Standard_Lockup.svg'
 
 export default {
+  name: 'FirebaseIcon',
   components: {
     FirebaseSvg
   }

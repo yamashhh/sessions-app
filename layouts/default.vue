@@ -19,6 +19,12 @@
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
+    <!-- <v-footer>
+      <small class="mx-auto caption font-weight-light">
+        &copy; 2020 Shogo Yamato
+      </small>
+    </v-footer> -->
+    <Footer></Footer>
   </v-app>
 </template>
 
@@ -28,11 +34,13 @@ import Cookie from 'js-cookie'
 import { auth } from '@/plugins/firebase'
 import Navbar from '@/components/nav/Navbar.vue'
 import NavDrawer from '@/components/nav/NavDrawer.vue'
+import Footer from '@/components/nav/Footer.vue'
 
 export default {
   components: {
     Navbar,
-    NavDrawer
+    NavDrawer,
+    Footer
   },
   data() {
     return {
@@ -96,3 +104,5 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped></style>

@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'ConfirmCloseSession',
   props: {
     timerState: {
       type: String,

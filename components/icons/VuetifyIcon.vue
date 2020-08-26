@@ -6,6 +6,7 @@
 import VuetifySvg from '@/static/svg/vuetify-logo.svg'
 
 export default {
+  name: 'VuetifyIcon',
   components: {
     VuetifySvg
   }

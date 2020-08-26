@@ -6,6 +6,7 @@
 import NuxtSvg from '@/static/svg/nuxt.svg'
 
 export default {
+  name: 'NuxtJSIcon',
   components: {
     NuxtSvg
   }

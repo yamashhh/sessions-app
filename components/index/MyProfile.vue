@@ -1,7 +1,7 @@
 <template>
   <v-sheet max-width="450" class="mx-auto">
     <v-row justify="center" align="center">
-      <v-col cols="6">
+      <v-col :cols="mobile ? 12 : 6">
         <v-avatar size="64">
           <v-img :src="require('@/static/pics/my_pic.png')"> </v-img>
         </v-avatar>
@@ -9,7 +9,7 @@
       <v-col :cols="mobile ? 12 : 6">
         <h3 class="title">Shogo Yamato</h3>
       </v-col>
-      <v-col :cols="mobile ? 12 : 6">
+      <v-col cols="12">
         <a href="https://github.com/yamashhh/sessions-app">
           <v-img
             alt="Github"
@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  name: 'MyProfile',
   computed: {
     mobile() {
       return this.$vuetify.breakpoint.xs

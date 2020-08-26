@@ -45,6 +45,7 @@
 import { mapActions } from 'vuex'
 
 export default {
+  name: 'ConfirmDeleteSession',
   props: {
     user: {
       type: Object,

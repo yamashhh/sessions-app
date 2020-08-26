@@ -40,6 +40,7 @@ import CategoryEditor from '@/components/settings/categories-card/CategoryEditor
 import ConfirmResetCategories from '@/components/settings/categories-card/ConfirmResetCategories.vue'
 
 export default {
+  name: 'CategoriesCard',
   components: {
     CategoryEditor,
     ConfirmResetCategories

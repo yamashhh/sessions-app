@@ -6,6 +6,7 @@
 import NuxtTypoSvg from '@/static/svg/nuxtjs-typo.svg'
 
 export default {
+  name: 'NuxtJSTypo',
   components: {
     NuxtTypoSvg
   }

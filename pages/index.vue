@@ -161,6 +161,11 @@ export default {
     ...mapGetters({
       signedIn: 'auth/signedIn'
     })
+  },
+  head() {
+    return {
+      title: 'Home'
+    }
   }
 }
 </script>

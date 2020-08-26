@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: 'MadeWithIcon',
   props: {
     elem: {
       type: Object,

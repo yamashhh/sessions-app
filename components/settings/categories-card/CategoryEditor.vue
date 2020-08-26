@@ -74,6 +74,7 @@ import { mapActions } from 'vuex'
 import ConfirmDeleteCategory from '@/components/settings/categories-card/ConfirmDeleteCategory.vue'
 
 export default {
+  name: 'CategoryEditor',
   components: {
     ConfirmDeleteCategory
   },

@@ -27,21 +27,12 @@ import CategoriesCard from '@/components/settings/categories-card/CategoriesCard
 import ConfirmDeleteAccount from '@/components/settings/ConfirmDeleteAccount.vue'
 
 export default {
+  name: 'Settings',
   components: {
     UserCard,
     CategoriesCard,
     ConfirmDeleteAccount
   },
-  // async fetch() {
-  //   try {
-  //     await this.fetchCategoriesAction(this.user.uid)
-  //     this.switchOverlay(false)
-  //   } catch (e) {
-  //     console.log(e.message)
-  //     this.switchOverlay(false)
-  //   }
-  // },
-  // fetchOnServer: false,
   data() {
     return {
       dialog: false
@@ -66,7 +57,6 @@ export default {
   methods: {
     ...mapActions({
       fetchCategoriesAction: 'categories/fetchCategories',
-      // deleteUserAction: 'auth/deleteUser',
       switchOverlay: 'overlay/switchOverlay'
     }),
     async fetchCategories(uid) {
@@ -80,18 +70,11 @@ export default {
         this.switchOverlay(false)
       }
     }
-    // async deleteUser() {
-    //   console.log('deleteUser @settings')
-    //   this.switchOverlay(true)
-    //   try {
-    //     this.$router.push('/')
-    //     await this.deleteUserAction(this.user.uid)
-    //     this.switchOverlay(false)
-    //   } catch (e) {
-    //     console.log(e.message)
-    //     this.switchOverlay(false)
-    //   }
-    // }
+  },
+  head() {
+    return {
+      title: 'Settings'
+    }
   }
 }
 </script>
