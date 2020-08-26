@@ -14,7 +14,9 @@
     </v-content>
     <v-snackbar v-model="snackbar" :color="color">
       {{ message }}
-      <v-btn text @click="snackbar = false">Close</v-btn>
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+      </template>
     </v-snackbar>
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
