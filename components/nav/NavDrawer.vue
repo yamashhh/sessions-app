@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" app temporary right>
+  <v-navigation-drawer v-model="drawer" height="100%" app temporary right>
     <v-list nav>
       <v-list-item-group>
         <v-list-item to="/settings" nuxt>
@@ -72,4 +72,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// height="100%" on v-navigation drawer is a workaround for
+// "v-navigation-drawer append slot isn't visible without scrolling in Chrome on Android"
+// https://github.com/vuetifyjs/vuetify/issues/9607
+</style>
