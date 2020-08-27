@@ -7,11 +7,11 @@
       :user="user"
       @signOut="signOut"
     ></nav-drawer>
-    <v-content>
+    <v-main>
       <v-container>
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
     <v-snackbar v-model="snackbar" :color="color">
       {{ message }}
       <template v-slot:action="{ attrs }">
@@ -99,4 +99,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// Workaround for "Snackbars in bottom not showing
+// in Android Chrome when the search bar is visible"
+// https://github.com/vuetifyjs/vuetify/issues/11781
+div.v-snack:not(.v-snack--absolute) {
+  height: 100%;
+}
+</style>
