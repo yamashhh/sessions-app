@@ -83,12 +83,12 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
-  },
+  }
   /*
    ** Local development server configuration
    */
-  server: {
-    port: 8000, // default: 3000
-    host: '0.0.0.0' // default: localhost
-  }
+  // server: {
+  //   port: 8000, // default: 3000
+  //   host: '0.0.0.0' // default: localhost
+  // }
 }
