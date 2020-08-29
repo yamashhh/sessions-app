@@ -64,6 +64,10 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
   - Import SVGs as Vue components
 
+- [graphicsMagick](https://github.com/aheckmann/gm#readme)
+
+  - Used with [vuetify-loader (included in @nuxtjs/vuetify)](https://github.com/nuxt-community/vuetify-module#treeshake) to enable [progressive images](https://github.com/vuetifyjs/vuetify-loader#progressive-images) option
+
 - [Moment.js](https://momentjs.com/)
 
   - Manipulate date and time

@@ -16,7 +16,6 @@
     "@nuxtjs/vuetify": "^1.11.2",
     "cookieparser": "^0.1.0",
     "firebase": "^7.15.1",
-    "firebaseui": "^4.5.1",
     "gm": "^1.23.1",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
