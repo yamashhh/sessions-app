@@ -47,36 +47,13 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 - Equipped with input validator (category name length, category duplicates, etc.)
 
-## Technologies
+## Built with
 
 ### Front-end
 
 - [Nuxt.js](https://nuxtjs.org/)
 
-  - Vue.js with built-in Server Side Rendering and other useful features
-
 - [Vuetify](https://vuetifyjs.com/en/)
-
-  - Vue.js Material Design component framework
-  - Integrated to Nuxt.js with [@nuxtjs/vuetify](https://github.com/nuxt-community/vuetify-module#readme)
-
-- [nuxt-svg-loader](https://github.com/Developmint/nuxt-svg-loader#readme)
-
-  - Import SVGs as Vue components
-
-- [graphicsMagick](https://github.com/aheckmann/gm#readme)
-
-  - Used with [vuetify-loader (included in @nuxtjs/vuetify)](https://github.com/nuxt-community/vuetify-module#treeshake) to enable [progressive images](https://github.com/vuetifyjs/vuetify-loader#progressive-images) option
-
-- [Moment.js](https://momentjs.com/)
-
-  - Manipulate date and time
-
-- [js-cookie](https://github.com/js-cookie/js-cookie#readme)
-- [cookieparser](https://github.com/petkaantonov/cookieparser#readme)
-- [jwt-decode](https://github.com/auth0/jwt-decode#readme)
-
-  - Manipulate cookies (for persistent user sign in state)
 
 ### Back-end
 
