@@ -2,7 +2,7 @@
 
 > A simple activity recording tool.
 
-## [Live Demo](https://sessions-app-c2fb5.an.r.appspot.com/)
+## ~~Live Demo~~
 
 ![GIF of live demo](https://media.giphy.com/media/iGos2pRtYR84xbHLv2/giphy.gif)
 
