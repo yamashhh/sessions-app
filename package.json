@@ -19,7 +19,7 @@
     "gm": "^1.23.1",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "nuxt": "^2.0.0",
     "nuxt-svg-loader": "^1.2.0"
   },
